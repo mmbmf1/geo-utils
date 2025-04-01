@@ -2,12 +2,17 @@ import { sql } from '@vercel/postgres'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
+  console.log('API route hit')
   try {
-    console.log('Database URL:', process.env.POSTGRES_URL)
-    console.log('test', process.env.DATABASE_URL)
-    console.log('Request received:', request.url)
-    const { point1, point2, unit = 'miles' } = await request.json()
+    console.log('Environment:', process.env.NODE_ENV)
+    console.log('Database connection available:', !!process.env.POSTGRES_URL)
 
+    const body = await request.json()
+    console.log('Request body:', body)
+
+    const { point1, point2, unit = 'miles' } = body
+
+    console.log('Attempting database query...')
     const result = await sql`
       SELECT geo.calculate_distance(
         ${point1.longitude},
@@ -17,10 +22,11 @@ export async function POST(request: Request) {
         ${unit}
       ) as distance
     `
+    console.log('Query result:', result)
 
     return NextResponse.json({ distance: result.rows[0].distance })
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Error in distance calculation:', error)
     return NextResponse.json(
       { error: 'Failed to calculate distance' },
       { status: 500 }
