@@ -1,0 +1,31 @@
+{
+  "name": "@mmbmf1/geo-utils",
+  "version": "0.1.0",
+  "description": "Geospatial utilities using PostGIS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "geospatial",
+    "postgis",
+    "distance"
+  ],
+  "author": "Michael Mace",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "29.5.14",
+    "@types/node": "20",
+    "jest": "29.7.0",
+    "ts-jest": "29.3.1",
+    "typescript": "5"
+  }
+}
