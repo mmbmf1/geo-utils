@@ -2,31 +2,34 @@
 
 REST API providing geospatial calculations using PostGIS.
 
-## Setup
+## Using the API
 
-```bash
-# Install dependencies
-pnpm install
+There are two ways to use this API:
 
-# Set up environment variables
-cp .env.example .env.local
+1. **Recommended: npm package**
 
-# Run development server
-pnpm dev
+```typescript
+import { GeoUtils } from '@mmbmf1/geo-utils'
+
+const geoUtils = new GeoUtils()
+const distance = await geoUtils.calculateDistance(
+  { latitude: 40.7128, longitude: -74.006 }, // NYC
+  { latitude: 34.0522, longitude: -118.2437 } // LA
+)
 ```
 
-## Environment Variables
+2. **Direct API calls**
 
-Required Vercel Postgres environment variables:
-
-```bash
-POSTGRES_URL=
-POSTGRES_PRISMA_URL=
-POSTGRES_URL_NON_POOLING=
-POSTGRES_USER=
-POSTGRES_HOST=
-POSTGRES_PASSWORD=
-POSTGRES_DATABASE=
+```typescript
+const response = await fetch('https://your-api.vercel.app/api/distance', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    point1: { latitude: 40.7128, longitude: -74.006 },
+    point2: { latitude: 34.0522, longitude: -118.2437 },
+    unit: 'miles',
+  }),
+})
 ```
 
 ## API Endpoints
@@ -59,7 +62,36 @@ POST /api/distance
 
 ## Development
 
-The API uses:
+The following section is only needed if you want to run the API locally or contribute to development.
+
+### Local Setup
+
+```bash
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.example .env.local
+
+# Run development server
+pnpm dev
+```
+
+### Environment Variables
+
+Required Vercel Postgres environment variables (only for local development):
+
+```bash
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+```
+
+### Tech Stack
 
 - Next.js App Router
 - Vercel Postgres with PostGIS extension
