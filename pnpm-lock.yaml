@@ -4,39 +4,43 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@vercel/postgres':
-    specifier: 0.10.0
-    version: 0.10.0
-  next:
-    specifier: 15.2.4
-    version: 15.2.4(react-dom@19.0.0)(react@19.0.0)
-  react:
-    specifier: 19.0.0
-    version: 19.0.0
-  react-dom:
-    specifier: 19.0.0
-    version: 19.0.0(react@19.0.0)
+importers:
 
-devDependencies:
-  '@tailwindcss/postcss':
-    specifier: '4'
-    version: 4.0.0
-  '@types/node':
-    specifier: '20'
-    version: 20.0.0
-  '@types/react':
-    specifier: '19'
-    version: 19.0.0
-  '@types/react-dom':
-    specifier: '19'
-    version: 19.0.0
-  tailwindcss:
-    specifier: '4'
-    version: 4.0.0
-  typescript:
-    specifier: '5'
-    version: 5.0.2
+  .: {}
+
+  apps/api:
+    dependencies:
+      '@vercel/postgres':
+        specifier: 0.10.0
+        version: 0.10.0
+      next:
+        specifier: 15.2.4
+        version: 15.2.4(react-dom@19.0.0)(react@19.0.0)
+      react:
+        specifier: 19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: 19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: '4'
+        version: 4.0.0
+      '@types/node':
+        specifier: '20'
+        version: 20.0.0
+      '@types/react':
+        specifier: '19'
+        version: 19.0.0
+      '@types/react-dom':
+        specifier: '19'
+        version: 19.0.0
+      tailwindcss:
+        specifier: '4'
+        version: 4.0.0
+      typescript:
+        specifier: '5'
+        version: 5.0.2
 
 packages:
 
