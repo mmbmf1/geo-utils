@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
+    console.log('Database URL:', process.env.POSTGRES_URL)
+    console.log('Request received:', request.url)
     const { point1, point2, unit = 'miles' } = await request.json()
 
     const result = await sql`
