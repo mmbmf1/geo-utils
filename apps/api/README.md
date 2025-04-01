@@ -7,7 +7,7 @@ REST API providing geospatial calculations using PostGIS.
 Make POST requests to the available endpoints:
 
 ```typescript
-const response = await fetch('https://your-api.vercel.app/api/distance', {
+const response = await fetch('https://geo-utils.app/api/distance', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
