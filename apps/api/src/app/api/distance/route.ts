@@ -1,11 +1,11 @@
-import { sql } from '@vercel/postgres'
+import { neon } from '@neondatabase/serverless'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   console.log('API route hit')
   try {
-    console.log('Environment:', process.env.NODE_ENV)
-    console.log('Database connection available:', !!process.env.POSTGRES_URL)
+    const sql = neon(process.env.POSTGRES_URL!)
+    console.log('Database connection created')
 
     const body = await request.json()
     console.log('Request body:', body)
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     `
     console.log('Query result:', result)
 
-    return NextResponse.json({ distance: result.rows[0].distance })
+    return NextResponse.json({ distance: result[0].distance })
   } catch (error) {
     console.error('Error in distance calculation:', error)
     return NextResponse.json(
