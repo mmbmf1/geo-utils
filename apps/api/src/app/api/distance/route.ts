@@ -1,18 +1,10 @@
-import { neon } from '@neondatabase/serverless'
+import { sql } from '@vercel/postgres'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
-  console.log('API route hit')
   try {
-    const sql = neon(process.env.POSTGRES_URL!)
-    console.log('Database connection created')
+    const { point1, point2, unit = 'miles' } = await request.json()
 
-    const body = await request.json()
-    console.log('Request body:', body)
-
-    const { point1, point2, unit = 'miles' } = body
-
-    console.log('Attempting database query...')
     const result = await sql`
       SELECT geo.calculate_distance(
         ${point1.longitude},
@@ -22,11 +14,10 @@ export async function POST(request: Request) {
         ${unit}
       ) as distance
     `
-    console.log('Query result:', result)
 
-    return NextResponse.json({ distance: result[0].distance })
+    return NextResponse.json({ distance: result.rows[0].distance })
   } catch (error) {
-    console.error('Error in distance calculation:', error)
+    console.error('Error:', error)
     return NextResponse.json(
       { error: 'Failed to calculate distance' },
       { status: 500 }
