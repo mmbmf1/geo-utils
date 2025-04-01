@@ -4,21 +4,7 @@ REST API providing geospatial calculations using PostGIS.
 
 ## Using the API
 
-There are two ways to use this API:
-
-1. **Recommended: npm package**
-
-```typescript
-import { GeoUtils } from '@mmbmf1/geo-utils'
-
-const geoUtils = new GeoUtils()
-const distance = await geoUtils.calculateDistance(
-  { latitude: 40.7128, longitude: -74.006 }, // NYC
-  { latitude: 34.0522, longitude: -118.2437 } // LA
-)
-```
-
-2. **Direct API calls**
+Make POST requests to the available endpoints:
 
 ```typescript
 const response = await fetch('https://your-api.vercel.app/api/distance', {
