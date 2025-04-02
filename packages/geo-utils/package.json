@@ -1,6 +1,6 @@
 {
   "name": "@mmbmf1/geo-utils",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Geospatial utilities using PostGIS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
