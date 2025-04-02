@@ -3,5 +3,6 @@
   "scripts": {
     "dev": "pnpm --filter api dev"
   },
-  "packageManager": "pnpm@8.0.0"
+  "packageManager": "pnpm@8.0.0",
+  "version": "0.0.1"
 }
