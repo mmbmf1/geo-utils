@@ -44,6 +44,18 @@ Calculates the geodetic distance between two geographical points.
 
 - `number`: Distance between the points in the specified unit
 
+## Development
+
+### Testing
+
+To run the tests:
+
+```bash
+pnpm test
+```
+
+This will run the test suite which verifies the core distance calculation functionality.
+
 ## License
 
 MIT
