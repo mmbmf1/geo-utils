@@ -6,7 +6,7 @@ on:
 
 jobs:
   api:
-    if: contains(github.event.pull_request.files.*.path, 'apps/api/')
+    if: "!contains(toJSON(github.event.pull_request.files.*.path), 'packages/') && contains(toJSON(github.event.pull_request.files.*.path), 'apps/api/')"
     runs-on: ubuntu-latest
 
     steps:
