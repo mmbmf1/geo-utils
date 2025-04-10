@@ -5,7 +5,11 @@ export default function Home() {
 
       <div className="space-y-6">
         <div className="border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-2">Distance Calculation</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            <a href="/docs/distance" className="hover:text-blue-500">
+              Distance Calculation
+            </a>
+          </h2>
           <p className="text-gray-600 mb-2">
             Calculate the geodetic distance between two points
           </p>
