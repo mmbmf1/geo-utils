@@ -20,11 +20,13 @@ jobs:
           done
 
   api:
-    if: "!contains(toJSON(github.event.pull_request.files.*.path), 'packages/') && contains(toJSON(github.event.pull_request.files.*.path), 'apps/api/')"
+    if: contains(steps.changed-files.outputs.all_changed_files, 'apps/api/')
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
 
       - uses: pnpm/action-setup@v2
         with:
@@ -51,11 +53,13 @@ jobs:
         run: pnpm build
 
   package:
-    if: contains(toJSON(github.event.pull_request.files.*.path), 'packages/geo-utils/')
+    if: contains(steps.changed-files.outputs.all_changed_files, 'packages/geo-utils/')
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
 
       - uses: pnpm/action-setup@v2
         with:
