@@ -5,11 +5,23 @@ on:
     branches: [main]
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github.event.pull_request) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Print changed files
+        run: echo "${{ toJSON(github.event.pull_request.files.*.path) }}"
+
   api:
     if: "!contains(toJSON(github.event.pull_request.files.*.path), 'packages/') && contains(toJSON(github.event.pull_request.files.*.path), 'apps/api/')"
     runs-on: ubuntu-latest
 
     steps:
+      - name: Print changed files
+        run: echo "${{ toJSON(github.event.pull_request.files.*.path) }}"
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2
@@ -41,7 +53,7 @@ jobs:
         run: pnpm build
 
   package:
-    if: contains(github.event.pull_request.files.*.path, 'packages/geo-utils/')
+    if: contains(toJSON(github.event.pull_request.files.*.path), 'packages/geo-utils/')
     runs-on: ubuntu-latest
 
     steps:
