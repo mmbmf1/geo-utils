@@ -1,0 +1,70 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/api/**'
+
+jobs:
+  api:
+    if: contains(github.event.pull_request.files.*.path, 'apps/api/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Type check
+        working-directory: apps/api
+        run: pnpm tsc --noEmit
+
+      - name: Lint
+        working-directory: apps/api
+        run: pnpm lint
+
+      - name: Test
+        working-directory: apps/api
+        run: pnpm test
+
+      - name: Build
+        working-directory: apps/api
+        run: pnpm build
+
+  package:
+    if: contains(github.event.pull_request.files.*.path, 'packages/geo-utils/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Test
+        working-directory: packages/geo-utils
+        run: pnpm test
+
+      - name: Build
+        working-directory: packages/geo-utils
+        run: pnpm build
