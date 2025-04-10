@@ -63,6 +63,38 @@ cp .env.example .env.local
 pnpm dev
 ```
 
+### Database Setup
+
+This API requires PostgreSQL with the PostGIS extension enabled:
+
+#### Vercel Postgres
+
+If using Vercel Postgres:
+
+1. Go to your project's Vercel Dashboard
+2. Navigate to Storage > Your Database
+3. Click on "Extensions" tab
+4. Enable the PostGIS extension
+
+#### Local PostgreSQL
+
+If running PostgreSQL locally:
+
+```sql
+-- Connect to your database and run:
+CREATE EXTENSION IF NOT EXISTS postgis;
+```
+
+### Testing
+
+Run the test suite:
+
+```bash
+pnpm test
+```
+
+Tests are written using Jest and located in `__tests__` directories alongside the code they test.
+
 ### Environment Variables
 
 Required Vercel Postgres environment variables (only for local development):
@@ -82,3 +114,4 @@ POSTGRES_DATABASE=
 - Next.js App Router
 - Vercel Postgres with PostGIS extension
 - TypeScript
+- Jest for testing
