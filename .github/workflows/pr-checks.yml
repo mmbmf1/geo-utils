@@ -10,44 +10,31 @@ jobs:
     steps:
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ toJSON(github.event.pull_request) }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Print changed files
-        run: echo "${{ toJSON(github.event.pull_request.files.*.path) }}"
 
   api:
-    if: "!contains(toJSON(github.event.pull_request.files.*.path), 'packages/') && contains(toJSON(github.event.pull_request.files.*.path), 'apps/api/')"
     runs-on: ubuntu-latest
-
     steps:
-      - name: Print changed files
-        run: echo "${{ toJSON(github.event.pull_request.files.*.path) }}"
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-
       - name: Install dependencies
         run: pnpm install
-
       - name: Type check
         working-directory: apps/api
         run: pnpm tsc --noEmit
-
       - name: Lint
         working-directory: apps/api
         run: pnpm lint
-
       - name: Test
         working-directory: apps/api
         run: pnpm test
-
       - name: Build
         working-directory: apps/api
         run: pnpm build
