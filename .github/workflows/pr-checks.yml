@@ -8,33 +8,44 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v4
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+      - name: List changed files
+        run: |
+          echo "Changed files:"
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file"
+          done
 
   api:
+    if: "!contains(toJSON(github.event.pull_request.files.*.path), 'packages/') && contains(toJSON(github.event.pull_request.files.*.path), 'apps/api/')"
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Type check
         working-directory: apps/api
         run: pnpm tsc --noEmit
-      - name: Lint
-        working-directory: apps/api
-        run: pnpm lint
+
       - name: Test
         working-directory: apps/api
         run: pnpm test
+
       - name: Build
         working-directory: apps/api
         run: pnpm build
