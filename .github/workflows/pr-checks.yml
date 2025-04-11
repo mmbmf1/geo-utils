@@ -20,63 +20,76 @@ jobs:
           done
 
   api:
-    if: contains(steps.changed-files.outputs.all_changed_files, 'apps/api/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v41
-
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'apps/api/**'
       - uses: pnpm/action-setup@v2
+        if: steps.filter.outputs.api == 'true'
         with:
           version: 8
 
       - uses: actions/setup-node@v4
+        if: steps.filter.outputs.api == 'true'
         with:
           node-version: '20'
           cache: 'pnpm'
 
       - name: Install dependencies
+        if: steps.filter.outputs.api == 'true'
         run: pnpm install
 
       - name: Type check
+        if: steps.filter.outputs.api == 'true'
         working-directory: apps/api
         run: pnpm tsc --noEmit
 
       - name: Test
+        if: steps.filter.outputs.api == 'true'
         working-directory: apps/api
         run: pnpm test
 
       - name: Build
+        if: steps.filter.outputs.api == 'true'
         working-directory: apps/api
         run: pnpm build
 
   package:
-    if: contains(steps.changed-files.outputs.all_changed_files, 'packages/geo-utils/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v41
-
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            package:
+              - 'packages/geo-utils/**'
       - uses: pnpm/action-setup@v2
+        if: steps.filter.outputs.package == 'true'
         with:
           version: 8
 
       - uses: actions/setup-node@v4
+        if: steps.filter.outputs.package == 'true'
         with:
           node-version: '20'
           cache: 'pnpm'
 
       - name: Install dependencies
+        if: steps.filter.outputs.package == 'true'
         run: pnpm install
 
       - name: Test
+        if: steps.filter.outputs.package == 'true'
         working-directory: packages/geo-utils
         run: pnpm test
 
       - name: Build
+        if: steps.filter.outputs.package == 'true'
         working-directory: packages/geo-utils
         run: pnpm build
