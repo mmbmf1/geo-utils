@@ -1,6 +1,11 @@
 export default function DistanceDocs() {
   return (
     <div>
+      <div className="mb-6">
+        <a href="/" className="text-blue-500 hover:text-blue-700">
+          ← Back to Home
+        </a>
+      </div>
       <h1 className="text-3xl font-bold mb-6">Distance Calculation</h1>
 
       <section className="mb-8">

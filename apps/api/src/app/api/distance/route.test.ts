@@ -7,6 +7,16 @@ jest.mock('@vercel/postgres', () => ({
   sql: jest.fn(),
 }))
 
+// Mock NextResponse
+jest.mock('next/server', () => ({
+  NextResponse: {
+    json: jest.fn((data, options) => ({
+      json: () => Promise.resolve(data),
+      status: options?.status || 200,
+    })),
+  },
+}))
+
 describe('Distance API', () => {
   beforeEach(() => {
     // Clear mock before each test
