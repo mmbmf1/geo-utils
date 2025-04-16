@@ -17,6 +17,7 @@ describe('Home page', () => {
     // Check the link to docs
     const docsLink = screen.getByRole('link', { name: 'Distance Calculation' })
     expect(docsLink).toHaveAttribute('href', '/docs/distance')
+    expect(docsLink).toHaveClass('hover:text-blue-500')
 
     // Check description text
     expect(

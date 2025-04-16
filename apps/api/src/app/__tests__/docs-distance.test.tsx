@@ -54,4 +54,14 @@ describe('Distance Documentation Page', () => {
     })
     expect(example).toBeInTheDocument()
   })
+
+  it('has a back to home link', () => {
+    render(<DistanceDocs />)
+
+    // Check for a link back to the home page
+    const homeLink = screen.getByRole('link', { name: /back to home/i })
+    expect(homeLink).toHaveAttribute('href', '/')
+    expect(homeLink).toHaveClass('text-blue-500')
+    expect(homeLink).toHaveClass('hover:text-blue-700')
+  })
 })
