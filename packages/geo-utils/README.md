@@ -39,11 +39,9 @@ try {
 
 ### GeoUtils Class
 
-#### constructor(apiUrl?: string)
+#### constructor()
 
 Creates a new GeoUtils instance.
-
-- `apiUrl` (optional): Custom API URL (default: 'https://geo-utils.vercel.app')
 
 #### calculateDistance(point1, point2, options?)
 
