@@ -10,6 +10,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@mmbmf1/geo-utils-validation':
+        specifier: workspace:*
+        version: link:../../packages/geo-utils-validation
       '@vercel/postgres':
         specifier: 0.10.0
         version: 0.10.0
@@ -85,6 +88,12 @@ importers:
         version: 10.9.2(@types/node@20.0.0)(typescript@5.0.2)
       typescript:
         specifier: '5'
+        version: 5.0.2
+
+  packages/geo-utils-validation:
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
         version: 5.0.2
 
 packages:

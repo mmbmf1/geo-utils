@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres'
 import { NextResponse } from 'next/server'
-import { validateCoordinates, validateUnit } from '@/lib/validation'
+import { validateCoordinates, validateUnit } from '@mmbmf1/geo-utils-validation'
 
 export async function POST(request: Request) {
   try {
