@@ -29,7 +29,21 @@ pnpm dev
 ## Features
 
 - Calculate distances between points using PostGIS
-- More features coming soon...
+- Comprehensive error handling with detailed validation messages
+- Support for multiple distance units (meters, kilometers, miles, feet)
+- TypeScript support with full type definitions
+- Consistent error response format across API and client
+
+## Error Handling
+
+Both the API and client library provide consistent error handling:
+
+- Validation errors with field-level messages
+- Database error handling
+- Request format validation
+- Type-safe error handling in TypeScript
+
+See the [API Documentation](apps/api/README.md) and [Package Documentation](packages/geo-utils/README.md) for detailed error handling examples.
 
 ## Tech Stack
 
