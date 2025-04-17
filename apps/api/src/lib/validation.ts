@@ -30,20 +30,40 @@ export function validatecoordinates(
 ): validationerror[] {
   const errors: validationerror[] = []
 
-  // validate latitude (-90 to 90)
-  if (point.latitude < -90 || point.latitude > 90) {
+  // validate latitude exists
+  if (point.latitude === undefined) {
     errors.push({
       field: `${prefix}.latitude`,
-      message: 'latitude must be between -90 and 90 degrees',
+      message: 'latitude is required',
+    })
+  }
+  // validate longitude exists
+  if (point.longitude === undefined) {
+    errors.push({
+      field: `${prefix}.longitude`,
+      message: 'longitude is required',
     })
   }
 
-  // validate longitude (-180 to 180)
-  if (point.longitude < -180 || point.longitude > 180) {
-    errors.push({
-      field: `${prefix}.longitude`,
-      message: 'longitude must be between -180 and 180 degrees',
-    })
+  // only validate ranges if coordinates exist
+  if (point.latitude !== undefined) {
+    // validate latitude (-90 to 90)
+    if (point.latitude < -90 || point.latitude > 90) {
+      errors.push({
+        field: `${prefix}.latitude`,
+        message: 'latitude must be between -90 and 90 degrees',
+      })
+    }
+  }
+
+  if (point.longitude !== undefined) {
+    // validate longitude (-180 to 180)
+    if (point.longitude < -180 || point.longitude > 180) {
+      errors.push({
+        field: `${prefix}.longitude`,
+        message: 'longitude must be between -180 and 180 degrees',
+      })
+    }
   }
 
   return errors

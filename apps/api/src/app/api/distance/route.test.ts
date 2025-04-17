@@ -54,31 +54,51 @@ describe('Distance API', () => {
   it('should return validation errors for invalid coordinates', async () => {
     const request = new Request('http://localhost:3000/api/distance', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
-        point1: { latitude: 200, longitude: -74.006 }, // invalid latitude
-        point2: { latitude: 34.0522, longitude: 200 }, // invalid longitude
-        unit: 'miles',
+        point1: { latitude: 200, longitude: 0 }, // invalid latitude
+        point2: { latitude: 0, longitude: 200 }, // invalid longitude
       }),
     })
 
     const response = await POST(request)
     const data = await response.json()
 
-    expect(data).toEqual({
-      errors: [
-        {
-          field: 'point1.latitude',
-          message: 'latitude must be between -90 and 90 degrees',
-        },
-        {
-          field: 'point2.longitude',
-          message: 'longitude must be between -180 and 180 degrees',
-        },
-      ],
+    expect(data.errors).toEqual([
+      {
+        field: 'point1.latitude',
+        message: 'latitude must be between -90 and 90 degrees',
+      },
+      {
+        field: 'point2.longitude',
+        message: 'longitude must be between -180 and 180 degrees',
+      },
+    ])
+    expect(response.status).toBe(400)
+    expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
+  })
+
+  it('should return validation errors for missing coordinates', async () => {
+    const request = new Request('http://localhost:3000/api/distance', {
+      method: 'POST',
+      body: JSON.stringify({
+        point1: { latitude: 0 }, // missing longitude
+        point2: { longitude: 0 }, // missing latitude
+      }),
     })
+
+    const response = await POST(request)
+    const data = await response.json()
+
+    expect(data.errors).toEqual([
+      {
+        field: 'point1.longitude',
+        message: 'longitude is required',
+      },
+      {
+        field: 'point2.latitude',
+        message: 'latitude is required',
+      },
+    ])
     expect(response.status).toBe(400)
     expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
   })
