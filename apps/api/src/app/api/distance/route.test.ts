@@ -102,4 +102,30 @@ describe('Distance API', () => {
     expect(response.status).toBe(400)
     expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
   })
+
+  it('should return validation errors for non-numeric coordinates', async () => {
+    const request = new Request('http://localhost:3000/api/distance', {
+      method: 'POST',
+      body: JSON.stringify({
+        point1: { latitude: '40.7128', longitude: -74.006 }, // string latitude
+        point2: { latitude: 34.0522, longitude: '-118.2437' }, // string longitude
+      }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+
+    expect(data.errors).toEqual([
+      {
+        field: 'point1.latitude',
+        message: 'latitude must be a number',
+      },
+      {
+        field: 'point2.longitude',
+        message: 'longitude must be a number',
+      },
+    ])
+    expect(response.status).toBe(400)
+    expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
+  })
 })
