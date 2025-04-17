@@ -1,46 +1,46 @@
 // typescript concept: type - defines a set of allowed values
 // here we define all possible units for distance calculation
-export type distanceunit = 'meters' | 'kilometers' | 'miles' | 'feet'
+export type DistanceUnit = 'meters' | 'kilometers' | 'miles' | 'feet'
 
 // typescript concept: interface - defines the shape of an object
 // this matches the point interface from the geo-utils package
-export interface point {
+export interface Point {
   latitude: number
   longitude: number
 }
 
 // typescript concept: interface - defines the shape of the request body
-export interface distancerequest {
-  point1: point
-  point2: point
-  unit?: distanceunit
+export interface DistanceRequest {
+  point1: Point
+  point2: Point
+  unit?: DistanceUnit
 }
 
 // typescript concept: type - defines possible validation errors
-export type validationerror = {
+export type ValidationError = {
   field: string
   message: string
 }
 
 // typescript concept: type guard - function that checks if a value matches a type
 // returns true if the value is a valid distance unit
-function isDistanceUnit(value: string): value is distanceunit {
-  const validUnits: readonly distanceunit[] = [
+function isDistanceUnit(value: string): value is DistanceUnit {
+  const validUnits: readonly DistanceUnit[] = [
     'meters',
     'kilometers',
     'miles',
     'feet',
   ] as const
-  return validUnits.includes(value as distanceunit)
+  return validUnits.includes(value as DistanceUnit)
 }
 
 // typescript concept: function with return type
 // this function validates that coordinates are within valid ranges
-export function validatecoordinates(
-  point: point,
+export function validateCoordinates(
+  point: Point,
   prefix: string
-): validationerror[] {
-  const errors: validationerror[] = []
+): ValidationError[] {
+  const errors: ValidationError[] = []
 
   // validate latitude exists and is a number
   if (point.latitude === undefined) {
@@ -92,8 +92,8 @@ export function validatecoordinates(
   return errors
 }
 
-export function validateunit(unit: string | undefined): validationerror[] {
-  const errors: validationerror[] = []
+export function validateUnit(unit: string | undefined): ValidationError[] {
+  const errors: ValidationError[] = []
 
   if (unit !== undefined && !isDistanceUnit(unit)) {
     errors.push({
