@@ -1,0 +1,25 @@
+{
+  "name": "@mmbmf1/geo-utils-validation",
+  "version": "0.1.0",
+  "description": "Shared validation and types for geo-utils",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "geospatial",
+    "validation",
+    "types"
+  ],
+  "author": "Michael Mace",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

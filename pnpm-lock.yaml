@@ -10,6 +10,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@mmbmf1/geo-utils-validation':
+        specifier: file:../../packages/geo-utils-validation
+        version: file:packages/geo-utils-validation
       '@vercel/postgres':
         specifier: 0.10.0
         version: 0.10.0
@@ -85,6 +88,12 @@ importers:
         version: 10.9.2(@types/node@20.0.0)(typescript@5.0.2)
       typescript:
         specifier: '5'
+        version: 5.0.2
+
+  packages/geo-utils-validation:
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
         version: 5.0.2
 
 packages:
@@ -3877,3 +3886,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  file:packages/geo-utils-validation:
+    resolution: {directory: packages/geo-utils-validation, type: directory}
+    name: '@mmbmf1/geo-utils-validation'
+    version: 0.1.0
+    dev: false

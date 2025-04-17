@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter api dev"
+    "dev": "pnpm --filter api dev",
+    "build": "pnpm --filter @mmbmf1/geo-utils-validation build && pnpm --filter api build"
   },
   "packageManager": "pnpm@8.0.0",
   "version": "0.0.1"

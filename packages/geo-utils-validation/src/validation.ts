@@ -1,29 +1,5 @@
-// typescript concept: type - defines a set of allowed values
-// here we define all possible units for distance calculation
-export type DistanceUnit = 'meters' | 'kilometers' | 'miles' | 'feet'
+import { DistanceUnit, Point, ValidationError } from './types'
 
-// typescript concept: interface - defines the shape of an object
-// this matches the point interface from the geo-utils package
-export interface Point {
-  latitude: number
-  longitude: number
-}
-
-// typescript concept: interface - defines the shape of the request body
-export interface DistanceRequest {
-  point1: Point
-  point2: Point
-  unit?: DistanceUnit
-}
-
-// typescript concept: type - defines possible validation errors
-export type ValidationError = {
-  field: string
-  message: string
-}
-
-// typescript concept: type guard - function that checks if a value matches a type
-// returns true if the value is a valid distance unit
 function isDistanceUnit(value: string): value is DistanceUnit {
   const validUnits: readonly DistanceUnit[] = [
     'meters',
@@ -34,8 +10,6 @@ function isDistanceUnit(value: string): value is DistanceUnit {
   return validUnits.includes(value as DistanceUnit)
 }
 
-// typescript concept: function with return type
-// this function validates that coordinates are within valid ranges
 export function validateCoordinates(
   point: Point,
   prefix: string
