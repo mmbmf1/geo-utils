@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mmbmf1/geo-utils-validation": "workspace:*",
     "@vercel/postgres": "0.10.0",
     "next": "15.2.4",
     "react": "19.0.0",
