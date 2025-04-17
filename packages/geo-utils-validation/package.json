@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "pnpm build",
+    "prepare": "npm run build",
     "build": "tsc",
     "test": "jest"
   },
