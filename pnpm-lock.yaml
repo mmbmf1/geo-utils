@@ -70,6 +70,10 @@ importers:
         version: 3.6.20
 
   packages/geo-utils:
+    dependencies:
+      '@mmbmf1/geo-utils-validation':
+        specifier: file:../geo-utils-validation
+        version: file:packages/geo-utils-validation
     devDependencies:
       '@types/jest':
         specifier: 29.5.14
@@ -3890,5 +3894,5 @@ packages:
   file:packages/geo-utils-validation:
     resolution: {directory: packages/geo-utils-validation, type: directory}
     name: '@mmbmf1/geo-utils-validation'
-    version: 0.1.0
+    version: 0.1.1
     dev: false

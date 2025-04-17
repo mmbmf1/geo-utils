@@ -14,25 +14,45 @@ export async function POST(request: Request) {
 
     // if we found any validation errors, return them
     if (errors.length > 0) {
-      return NextResponse.json({ errors }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Validation error occurred',
+          errors,
+        },
+        { status: 400 }
+      )
     }
 
-    const result = await sql`
-      SELECT geo.calculate_distance(
-        ${point1.longitude},
-        ${point1.latitude},
-        ${point2.longitude},
-        ${point2.latitude},
-        ${unit}
-      ) as distance
-    `
-
-    return NextResponse.json({ distance: result.rows[0].distance })
+    try {
+      const result = await sql`
+        SELECT geo.calculate_distance(
+          ${point1.longitude},
+          ${point1.latitude},
+          ${point2.longitude},
+          ${point2.latitude},
+          ${unit}
+        ) as distance
+      `
+      return NextResponse.json({ distance: result.rows[0].distance })
+    } catch (dbError) {
+      console.error('Database Error:', dbError)
+      return NextResponse.json(
+        {
+          error: 'Database error occurred while calculating distance',
+          errors: [],
+        },
+        { status: 500 }
+      )
+    }
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Request Error:', error)
     return NextResponse.json(
-      { error: 'Failed to calculate distance' },
-      { status: 500 }
+      {
+        error:
+          'Invalid request format. Expected JSON with point1, point2, and optional unit.',
+        errors: [],
+      },
+      { status: 400 }
     )
   }
 }

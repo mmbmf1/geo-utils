@@ -1,12 +1,10 @@
-export interface Point {
-  latitude: number
-  longitude: number
-}
+import {
+  Point as ValidationPoint,
+  DistanceUnit,
+} from '@mmbmf1/geo-utils-validation'
+
+export type Point = ValidationPoint
 
 export interface DistanceOptions {
-  unit?: 'meters' | 'kilometers' | 'miles' | 'feet'
-}
-
-export interface DistanceResponse {
-  distance: number
+  unit?: DistanceUnit
 }
