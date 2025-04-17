@@ -64,4 +64,54 @@ describe('Distance Documentation Page', () => {
     expect(homeLink).toHaveClass('text-blue-500')
     expect(homeLink).toHaveClass('hover:text-blue-700')
   })
+
+  describe('Testing Interface', () => {
+    it('renders the testing interface section', () => {
+      render(<DistanceDocs />)
+
+      // Check if the testing interface section is present
+      const testingSection = screen.getByRole('heading', {
+        name: /testing interface/i,
+      })
+      expect(testingSection).toBeInTheDocument()
+
+      // Check if the placeholder text is present
+      const placeholder = screen.getByText(/form coming soon/i)
+      expect(placeholder).toBeInTheDocument()
+    })
+
+    it('has input fields for coordinates', () => {
+      render(<DistanceDocs />)
+
+      // Check for latitude and longitude inputs for both points
+      expect(screen.getByLabelText(/point 1 latitude/i)).toBeInTheDocument()
+      expect(screen.getByLabelText(/point 1 longitude/i)).toBeInTheDocument()
+      expect(screen.getByLabelText(/point 2 latitude/i)).toBeInTheDocument()
+      expect(screen.getByLabelText(/point 2 longitude/i)).toBeInTheDocument()
+    })
+
+    it('has a unit selector', () => {
+      render(<DistanceDocs />)
+
+      // Check for unit selector
+      const unitSelector = screen.getByLabelText(/unit/i)
+      expect(unitSelector).toBeInTheDocument()
+
+      // Check for all unit options
+      expect(screen.getByText(/meters/i)).toBeInTheDocument()
+      expect(screen.getByText(/kilometers/i)).toBeInTheDocument()
+      expect(screen.getByText(/miles/i)).toBeInTheDocument()
+      expect(screen.getByText(/feet/i)).toBeInTheDocument()
+    })
+
+    it('has a submit button', () => {
+      render(<DistanceDocs />)
+
+      // Check for submit button
+      const submitButton = screen.getByRole('button', {
+        name: /calculate distance/i,
+      })
+      expect(submitButton).toBeInTheDocument()
+    })
+  })
 })
