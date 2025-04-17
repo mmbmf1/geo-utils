@@ -8,7 +8,3 @@ export type Point = ValidationPoint
 export interface DistanceOptions {
   unit?: DistanceUnit
 }
-
-export interface DistanceResponse {
-  distance: number
-}
