@@ -1,4 +1,5 @@
-import { Point, DistanceOptions, DistanceResponse } from './types'
+import { Point, DistanceOptions } from './types'
+import { GeoUtilsError } from './errors'
 
 export class GeoUtils {
   private apiUrl: string
@@ -24,11 +25,20 @@ export class GeoUtils {
       }),
     })
 
-    if (!response.ok) {
-      throw new Error('Failed to calculate distance')
+    const data = (await response.json()) as {
+      distance: number
+      error?: string
+      errors?: Array<{ field: string; message: string }>
     }
 
-    const data: DistanceResponse = await response.json()
+    if (!response.ok) {
+      throw new GeoUtilsError(
+        data.error || 'Failed to calculate distance',
+        response.status,
+        data.errors
+      )
+    }
+
     return data.distance
   }
 }
