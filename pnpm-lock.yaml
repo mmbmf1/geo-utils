@@ -11,8 +11,8 @@ importers:
   apps/api:
     dependencies:
       '@mmbmf1/geo-utils-validation':
-        specifier: workspace:*
-        version: link:../../packages/geo-utils-validation
+        specifier: file:../../packages/geo-utils-validation
+        version: file:packages/geo-utils-validation
       '@vercel/postgres':
         specifier: 0.10.0
         version: 0.10.0
@@ -3886,3 +3886,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  file:packages/geo-utils-validation:
+    resolution: {directory: packages/geo-utils-validation, type: directory}
+    name: '@mmbmf1/geo-utils-validation'
+    version: 0.1.0
+    dev: false
