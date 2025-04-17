@@ -22,6 +22,18 @@ export type validationerror = {
   message: string
 }
 
+// typescript concept: type guard - function that checks if a value matches a type
+// returns true if the value is a valid distance unit
+function isDistanceUnit(value: string): value is distanceunit {
+  const validUnits: readonly distanceunit[] = [
+    'meters',
+    'kilometers',
+    'miles',
+    'feet',
+  ] as const
+  return validUnits.includes(value as distanceunit)
+}
+
 // typescript concept: function with return type
 // this function validates that coordinates are within valid ranges
 export function validatecoordinates(
@@ -75,6 +87,19 @@ export function validatecoordinates(
         message: 'longitude must be between -180 and 180 degrees',
       })
     }
+  }
+
+  return errors
+}
+
+export function validateunit(unit: string | undefined): validationerror[] {
+  const errors: validationerror[] = []
+
+  if (unit !== undefined && !isDistanceUnit(unit)) {
+    errors.push({
+      field: 'unit',
+      message: 'unit must be one of: meters, kilometers, miles, feet',
+    })
   }
 
   return errors
