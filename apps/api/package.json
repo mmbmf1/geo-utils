@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "cd ../../packages/geo-utils-validation && pnpm build && cd ../../apps/api && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest"
