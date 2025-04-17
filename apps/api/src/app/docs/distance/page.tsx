@@ -41,7 +41,7 @@ export default function DistanceDocs() {
         </pre>
       </section>
 
-      <section>
+      <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Example</h2>
         <pre className="bg-gray-100 p-4 rounded overflow-x-auto">
           {`fetch('https://geo-utils.vercel.app/api/distance', {
@@ -54,6 +54,16 @@ export default function DistanceDocs() {
     })
   })`}
         </pre>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Testing Interface</h2>
+        <div className="border rounded-lg p-6">
+          {/* Form will go here */}
+          <div className="space-y-4">
+            <p className="text-gray-600">Form coming soon...</p>
+          </div>
+        </div>
       </section>
     </div>
   )
