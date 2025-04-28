@@ -4,3 +4,4 @@
 !**/.env.example
 .DS_Store
 **/dist
+.cursor
