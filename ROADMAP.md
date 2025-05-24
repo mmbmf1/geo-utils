@@ -10,10 +10,11 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Multiple unit support (meters, kilometers, miles, feet)
 - ✅ TypeScript support with full type definitions
 - ✅ Comprehensive error handling and validation
+- ✅ All tests passing in both package and API
 
 ## In Progress 🚧
 
-- Fixing test failures and improving error display
+- GeoJSON Layer Generation (v0.2.0) - Next up!
 
 ## Coming Soon ⏳
 
