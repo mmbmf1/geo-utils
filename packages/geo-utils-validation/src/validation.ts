@@ -133,3 +133,57 @@ export function validateGeoJSONPointsRequest(data: any): ValidationError[] {
 
   return errors
 }
+
+export function validateGeoJSONWKTRequest(data: any): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  // validate data array exists and is an array
+  if (!data.data || !Array.isArray(data.data)) {
+    errors.push({
+      field: 'data',
+      message: 'data must be an array',
+    })
+    return errors
+  }
+
+  // validate wktField exists
+  if (!data.wktField || typeof data.wktField !== 'string') {
+    errors.push({
+      field: 'wktField',
+      message: 'wktField is required and must be a string',
+    })
+  }
+
+  // validate properties array (optional)
+  if (data.properties && !Array.isArray(data.properties)) {
+    errors.push({
+      field: 'properties',
+      message: 'properties must be an array',
+    })
+  }
+
+  // validate each data item has the required WKT field
+  data.data.forEach((item: any, index: number) => {
+    if (!item[data.wktField] || typeof item[data.wktField] !== 'string') {
+      errors.push({
+        field: `data[${index}].${data.wktField}`,
+        message: `${data.wktField} must be a string`,
+      })
+    } else {
+      // basic WKT format validation
+      const wkt = item[data.wktField].trim()
+      if (
+        !wkt.match(
+          /^(POINT|LINESTRING|POLYGON|MULTIPOINT|MULTILINESTRING|MULTIPOLYGON|GEOMETRYCOLLECTION)\s*\(/i
+        )
+      ) {
+        errors.push({
+          field: `data[${index}].${data.wktField}`,
+          message: `${data.wktField} must be a valid WKT geometry string`,
+        })
+      }
+    }
+  })
+
+  return errors
+}
