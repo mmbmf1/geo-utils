@@ -78,3 +78,58 @@ export function validateUnit(unit: string | undefined): ValidationError[] {
 
   return errors
 }
+
+export function validateGeoJSONPointsRequest(data: any): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  // validate data array exists and is an array
+  if (!data.data || !Array.isArray(data.data)) {
+    errors.push({
+      field: 'data',
+      message: 'data must be an array',
+    })
+    return errors
+  }
+
+  // validate latField exists
+  if (!data.latField || typeof data.latField !== 'string') {
+    errors.push({
+      field: 'latField',
+      message: 'latField is required and must be a string',
+    })
+  }
+
+  // validate lngField exists
+  if (!data.lngField || typeof data.lngField !== 'string') {
+    errors.push({
+      field: 'lngField',
+      message: 'lngField is required and must be a string',
+    })
+  }
+
+  // validate properties array (optional)
+  if (data.properties && !Array.isArray(data.properties)) {
+    errors.push({
+      field: 'properties',
+      message: 'properties must be an array',
+    })
+  }
+
+  // validate each data item has the required fields
+  data.data.forEach((item: any, index: number) => {
+    if (!item[data.latField] || typeof item[data.latField] !== 'number') {
+      errors.push({
+        field: `data[${index}].${data.latField}`,
+        message: `${data.latField} must be a number`,
+      })
+    }
+    if (!item[data.lngField] || typeof item[data.lngField] !== 'number') {
+      errors.push({
+        field: `data[${index}].${data.lngField}`,
+        message: `${data.lngField} must be a number`,
+      })
+    }
+  })
+
+  return errors
+}
