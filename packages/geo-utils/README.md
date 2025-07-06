@@ -1,6 +1,6 @@
 # @mmbmf1/geo-utils
 
-Geospatial utility functions for calculating distances between geographical points using PostGIS calculations.
+Geospatial utility functions for calculating distances between geographical points and generating GeoJSON from various data sources using PostGIS calculations.
 
 ## Installation
 
@@ -33,6 +33,41 @@ try {
     }
   }
 }
+
+// Generate GeoJSON from coordinate data
+try {
+  const geojson = await geoUtils.generateGeoJSONFromPoints(
+    [
+      { name: 'Central Park', lat: 40.7829, lng: -73.9654 },
+      { name: 'Times Square', lat: 40.758, lng: -73.9855 },
+    ],
+    'lat',
+    'lng',
+    ['name']
+  )
+  console.log(geojson) // GeoJSON FeatureCollection
+} catch (error) {
+  console.error('Error:', error.message)
+}
+
+// Generate GeoJSON from WKT geometry strings
+try {
+  const geojson = await geoUtils.generateGeoJSONFromWKT(
+    [
+      {
+        name: 'Central Park',
+        geometry:
+          'POLYGON((-73.9731 40.7644, -73.9731 40.8004, -73.9581 40.8004, -73.9581 40.7644, -73.9731 40.7644))',
+      },
+      { name: 'Times Square', geometry: 'POINT(-73.9855 40.7580)' },
+    ],
+    'geometry',
+    ['name']
+  )
+  console.log(geojson) // GeoJSON FeatureCollection
+} catch (error) {
+  console.error('Error:', error.message)
+}
 ```
 
 ## API Reference
@@ -62,6 +97,35 @@ Calculates the geodetic distance between two geographical points.
 ##### Returns
 
 - `Promise<number>`: Distance between the points in the specified unit
+
+#### generateGeoJSONFromPoints(data, latField, lngField, properties?)
+
+Generates a GeoJSON FeatureCollection from an array of objects with coordinate data.
+
+##### Parameters
+
+- `data` (array): Array of objects containing coordinate data
+- `latField` (string): Name of the field containing latitude values
+- `lngField` (string): Name of the field containing longitude values
+- `properties` (array, optional): Array of field names to include as properties
+
+##### Returns
+
+- `Promise<GeoJSONFeatureCollection>`: GeoJSON FeatureCollection with Point features
+
+#### generateGeoJSONFromWKT(data, wktField, properties?)
+
+Generates a GeoJSON FeatureCollection from an array of objects with WKT geometry strings.
+
+##### Parameters
+
+- `data` (array): Array of objects containing WKT geometry data
+- `wktField` (string): Name of the field containing WKT geometry strings
+- `properties` (array, optional): Array of field names to include as properties
+
+##### Returns
+
+- `Promise<GeoJSONFeatureCollection>`: GeoJSON FeatureCollection with features from WKT geometries
 
 ##### Throws
 

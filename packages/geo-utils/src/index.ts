@@ -1,4 +1,10 @@
-import { Point, DistanceOptions } from './types'
+import {
+  Point,
+  DistanceOptions,
+  GeoJSONPointsOptions,
+  GeoJSONWKTOptions,
+  GeoJSONFeatureCollection,
+} from './types'
 import { GeoUtilsError } from './errors'
 
 export class GeoUtils {
@@ -41,6 +47,74 @@ export class GeoUtils {
 
     return data.distance
   }
+
+  async generateGeoJSONFromPoints(
+    data: any[],
+    latField: string,
+    lngField: string,
+    properties?: string[]
+  ): Promise<GeoJSONFeatureCollection> {
+    const response = await fetch(`${this.apiUrl}/api/geojson/points`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data,
+        latField,
+        lngField,
+        properties,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new GeoUtilsError(
+        result.error || 'Failed to generate GeoJSON from points',
+        response.status,
+        result.errors
+      )
+    }
+
+    return result
+  }
+
+  async generateGeoJSONFromWKT(
+    data: any[],
+    wktField: string,
+    properties?: string[]
+  ): Promise<GeoJSONFeatureCollection> {
+    const response = await fetch(`${this.apiUrl}/api/geojson/wkt`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data,
+        wktField,
+        properties,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new GeoUtilsError(
+        result.error || 'Failed to generate GeoJSON from WKT',
+        response.status,
+        result.errors
+      )
+    }
+
+    return result
+  }
 }
 
-export { Point, DistanceOptions }
+export {
+  Point,
+  DistanceOptions,
+  GeoJSONPointsOptions,
+  GeoJSONWKTOptions,
+  GeoJSONFeatureCollection,
+}
