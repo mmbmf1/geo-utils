@@ -1,6 +1,5 @@
 import { GeoUtils } from '../src'
 
-// Mock fetch globally
 global.fetch = jest.fn()
 
 describe('generateGeoJSONFromPoints', () => {
@@ -9,7 +8,6 @@ describe('generateGeoJSONFromPoints', () => {
   })
 
   test('generates GeoJSON from coordinate data', async () => {
-    // Mock successful response
     const mockResponse = {
       type: 'FeatureCollection',
       features: [
@@ -26,7 +24,8 @@ describe('generateGeoJSONFromPoints', () => {
       ],
     }
 
-    ;(fetch as jest.Mock).mockResolvedValueOnce({
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     })
@@ -50,8 +49,8 @@ describe('generateGeoJSONFromPoints', () => {
   })
 
   test('handles validation errors', async () => {
-    // Mock error response
-    ;(fetch as jest.Mock).mockResolvedValueOnce({
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       json: async () => ({

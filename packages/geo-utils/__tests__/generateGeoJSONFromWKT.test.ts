@@ -35,7 +35,8 @@ describe('generateGeoJSONFromWKT', () => {
       ],
     }
 
-    ;(fetch as jest.Mock).mockResolvedValueOnce({
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse,
     })
@@ -63,7 +64,8 @@ describe('generateGeoJSONFromWKT', () => {
   })
 
   test('handles validation errors', async () => {
-    ;(fetch as jest.Mock).mockResolvedValueOnce({
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       json: async () => ({

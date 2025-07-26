@@ -8,7 +8,8 @@ describe('calculateDistance', () => {
   })
 
   test('calculates distance between two points', async () => {
-    ;(fetch as jest.Mock).mockResolvedValueOnce({
+    const mockFetch = fetch as jest.Mock
+    mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ distance: 2450.95 }),
     })
