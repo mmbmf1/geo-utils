@@ -12,6 +12,8 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Comprehensive error handling and validation
 - ✅ All tests passing in both package and API
 - ✅ GeoJSON Layer Generation (v0.2.0) - API endpoints completed!
+- ✅ Client package methods for GeoJSON endpoints
+- ✅ Comprehensive testing for GeoJSON features (with mocked tests)
 
 ## Completed Features 🎉
 
@@ -20,22 +22,29 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Generate GeoJSON FeatureCollections from coordinate data (`/api/geojson/points`)
 - ✅ Generate GeoJSON FeatureCollections from WKT geometry strings (`/api/geojson/wkt`)
 - ✅ Comprehensive validation for both endpoints
+- ✅ Client package methods (`generateGeoJSONFromPoints`, `generateGeoJSONFromWKT`)
+- ✅ Comprehensive testing with mocked API calls
 - ✅ Perfect for mapping applications and data visualization
 - ✅ Example use case: Convert location data with properties to GeoJSON for mapping
 
 ## In Progress 🚧
 
-- Client package methods for GeoJSON endpoints
-- Comprehensive testing for GeoJSON features
 - Documentation UI for GeoJSON endpoints
+- Package version updates and documentation
 
 ## Coming Soon ⏳
 
-### API Improvements (v0.1.5)
+### Documentation & Versioning (v0.2.1)
 
 - Enhanced documentation and examples
+- Interactive documentation UI for GeoJSON endpoints
+- Package version updates
+
+### API Improvements (v0.2.5)
+
 - Basic API versioning
 - Rate limiting for abuse protection
+- Performance monitoring
 
 ### Vector Tile Generation (v0.3.0)
 
@@ -46,11 +55,13 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 
 ## Future Plans 🔮
 
-### Advanced GeoJSON Operations (v0.2.1)
+### Advanced GeoJSON Operations
 
 - Buffer operations around geometries
 - Area/length calculations for polygons and lines
 - Intersection calculations between geometries
+
+<!-->
 
 ### Database-Connected GeoJSON (v0.2.2)
 
@@ -67,11 +78,12 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 ## Contributing
 
 We welcome contributions! If you're interested in helping with any of these features, please check our [Contributing Guide](CONTRIBUTING.md).
+-->
 
 ## Version History
 
 - v0.1.4: Added input validation and improved error handling
 - v0.1.3: Initial public release with distance calculations
-- v0.2.0: Added GeoJSON generation from points and WKT geometries
+- v0.2.0: Added GeoJSON generation from points and WKT geometries, client package methods, and comprehensive testing
 
-Last Updated: 2024-12-19
+Last Updated: 2025-07-26
