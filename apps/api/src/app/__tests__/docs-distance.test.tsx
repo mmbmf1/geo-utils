@@ -52,23 +52,34 @@ describe('Distance Documentation Page', () => {
       expect(screen.getByText(/testing interface/i)).toBeInTheDocument()
     })
 
-    it('has input fields for coordinates', () => {
+    it('has input fields for coordinates with default values', () => {
       render(<DistanceDocs />)
-      expect(
-        screen.getByLabelText(/latitude/i, { selector: '#point1-latitude' })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByLabelText(/longitude/i, { selector: '#point1-longitude' })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByLabelText(/latitude/i, { selector: '#point2-latitude' })
-      ).toBeInTheDocument()
-      expect(
-        screen.getByLabelText(/longitude/i, { selector: '#point2-longitude' })
-      ).toBeInTheDocument()
+      const point1Lat = screen.getByLabelText(/latitude/i, {
+        selector: '#point1-latitude',
+      })
+      const point1Lon = screen.getByLabelText(/longitude/i, {
+        selector: '#point1-longitude',
+      })
+      const point2Lat = screen.getByLabelText(/latitude/i, {
+        selector: '#point2-latitude',
+      })
+      const point2Lon = screen.getByLabelText(/longitude/i, {
+        selector: '#point2-longitude',
+      })
+
+      expect(point1Lat).toBeInTheDocument()
+      expect(point1Lon).toBeInTheDocument()
+      expect(point2Lat).toBeInTheDocument()
+      expect(point2Lon).toBeInTheDocument()
+
+      // Check that default values are present
+      expect(point1Lat).toHaveValue(40.7128)
+      expect(point1Lon).toHaveValue(-74.006)
+      expect(point2Lat).toHaveValue(34.0522)
+      expect(point2Lon).toHaveValue(-118.2437)
     })
 
-    it('has a unit selector', () => {
+    it('has a unit selector with default value', () => {
       render(<DistanceDocs />)
       const unitSelector = screen.getByLabelText(/unit/i)
       expect(unitSelector).toBeInTheDocument()
@@ -81,6 +92,9 @@ describe('Distance Documentation Page', () => {
         'Miles',
         'Feet',
       ])
+
+      // Check default value
+      expect(unitSelector).toHaveValue('Miles')
     })
 
     it('has a submit button', () => {
@@ -92,10 +106,10 @@ describe('Distance Documentation Page', () => {
   })
 
   describe('Form Submission', () => {
-    it('submits the form with valid data', async () => {
+    it('submits the form with default data', async () => {
       render(<DistanceDocs />)
 
-      // Fill in the form
+      // Get the form elements
       const point1Lat = screen.getByLabelText(/latitude/i, {
         selector: '#point1-latitude',
       })
@@ -110,13 +124,7 @@ describe('Distance Documentation Page', () => {
       })
       const unitSelector = screen.getByLabelText(/unit/i)
 
-      await userEvent.type(point1Lat, '40.7128')
-      await userEvent.type(point1Lon, '-74.0060')
-      await userEvent.type(point2Lat, '34.0522')
-      await userEvent.type(point2Lon, '-118.2437')
-      await userEvent.selectOptions(unitSelector, 'Meters')
-
-      // Submit the form
+      // Submit the form with default values
       const submitButton = screen.getByRole('button', {
         name: /calculate distance/i,
       })
@@ -127,6 +135,37 @@ describe('Distance Documentation Page', () => {
       expect(point1Lon).toHaveValue(-74.006)
       expect(point2Lat).toHaveValue(34.0522)
       expect(point2Lon).toHaveValue(-118.2437)
+      expect(unitSelector).toHaveValue('Miles')
+    })
+
+    it('submits the form with modified data', async () => {
+      render(<DistanceDocs />)
+
+      // Get the form elements
+      const point1Lat = screen.getByLabelText(/latitude/i, {
+        selector: '#point1-latitude',
+      })
+      const point1Lon = screen.getByLabelText(/longitude/i, {
+        selector: '#point1-longitude',
+      })
+      const unitSelector = screen.getByLabelText(/unit/i)
+
+      // Clear and type new values
+      await userEvent.clear(point1Lat)
+      await userEvent.type(point1Lat, '41.0')
+      await userEvent.clear(point1Lon)
+      await userEvent.type(point1Lon, '-75.0')
+      await userEvent.selectOptions(unitSelector, 'Meters')
+
+      // Submit the form
+      const submitButton = screen.getByRole('button', {
+        name: /calculate distance/i,
+      })
+      await userEvent.click(submitButton)
+
+      // Check that the form data was submitted correctly
+      expect(point1Lat).toHaveValue(41)
+      expect(point1Lon).toHaveValue(-75)
       expect(unitSelector).toHaveValue('Meters')
     })
 
@@ -152,7 +191,9 @@ describe('Distance Documentation Page', () => {
         selector: '#point1-longitude',
       })
 
+      await userEvent.clear(point1Lat)
       await userEvent.type(point1Lat, '100') // Invalid latitude
+      await userEvent.clear(point1Lon)
       await userEvent.type(point1Lon, '200') // Invalid longitude
 
       // Submit the form
@@ -176,40 +217,19 @@ describe('Distance Documentation Page', () => {
     it('displays the calculated distance result', async () => {
       // Mock the fetch response for successful calculation
       ;(global.fetch as jest.Mock).mockResolvedValueOnce({
-        json: () => Promise.resolve({ distance: 3935.747 }),
+        json: () => Promise.resolve({ distance: 2445.203 }),
       })
 
       render(<DistanceDocs />)
 
-      // Fill in the form with valid data
-      const point1Lat = screen.getByLabelText(/latitude/i, {
-        selector: '#point1-latitude',
-      })
-      const point1Lon = screen.getByLabelText(/longitude/i, {
-        selector: '#point1-longitude',
-      })
-      const point2Lat = screen.getByLabelText(/latitude/i, {
-        selector: '#point2-latitude',
-      })
-      const point2Lon = screen.getByLabelText(/longitude/i, {
-        selector: '#point2-longitude',
-      })
-      const unitSelector = screen.getByLabelText(/unit/i)
-
-      await userEvent.type(point1Lat, '40.7128')
-      await userEvent.type(point1Lon, '-74.0060')
-      await userEvent.type(point2Lat, '34.0522')
-      await userEvent.type(point2Lon, '-118.2437')
-      await userEvent.selectOptions(unitSelector, 'Meters')
-
-      // Submit the form
+      // Submit the form with default values
       const submitButton = screen.getByRole('button', {
         name: /calculate distance/i,
       })
       await userEvent.click(submitButton)
 
       // Check for the result display
-      const resultText = await screen.findByText(/Distance: 3935.75 meters/i)
+      const resultText = await screen.findByText(/Distance: 2445.20 miles/i)
       expect(resultText).toBeInTheDocument()
     })
   })
