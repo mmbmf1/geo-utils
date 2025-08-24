@@ -6,7 +6,7 @@ A monorepo containing geospatial utilities powered by PostGIS.
 
 ### API (`/apps/api`)
 
-REST API built with Next.js and Vercel Postgres (PostGIS) providing accurate geospatial calculations.
+REST API built with Next.js and Vercel Postgres (PostGIS) providing accurate geospatial calculations and data transformations.
 
 [API Documentation](apps/api/README.md)
 
@@ -15,6 +15,12 @@ REST API built with Next.js and Vercel Postgres (PostGIS) providing accurate geo
 npm package [@mmbmf1/geo-utils](https://www.npmjs.com/package/@mmbmf1/geo-utils) for easy access to PostGIS functions.
 
 [Package Documentation](packages/geo-utils/README.md)
+
+### Validation Package (`/packages/geo-utils-validation`)
+
+Shared validation and types for geo-utils.
+
+[Validation Package Documentation](packages/geo-utils-validation/README.md)
 
 ## Development
 
@@ -28,11 +34,23 @@ pnpm dev
 
 ## Features
 
+### Distance Calculations
+
 - Calculate distances between points using PostGIS
-- Comprehensive error handling with detailed validation messages
 - Support for multiple distance units (meters, kilometers, miles, feet)
+
+### GeoJSON Generation
+
+- Convert coordinate data to GeoJSON FeatureCollections (`/api/geojson/points`)
+- Convert WKT geometry strings to GeoJSON (`/api/geojson/wkt`)
+- Perfect for mapping applications and data visualization
+
+### Developer Experience
+
+- Comprehensive error handling with detailed validation messages
 - TypeScript support with full type definitions
 - Consistent error response format across API and client
+- Interactive documentation UI
 
 ## Error Handling
 
