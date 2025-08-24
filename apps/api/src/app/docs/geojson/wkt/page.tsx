@@ -92,7 +92,7 @@ export default function GeoJSONWKTDocs() {
   return (
     <div>
       <h1>GeoJSON WKT API</h1>
-      
+
       <div>
         <div>
           <h2>API Endpoint</h2>
@@ -209,7 +209,9 @@ export default function GeoJSONWKTDocs() {
                         </label>
                         <textarea
                           value={item.wkt || ''}
-                          onChange={(e) => updateData(index, 'wkt', e.target.value)}
+                          onChange={(e) =>
+                            updateData(index, 'wkt', e.target.value)
+                          }
                           className="w-full p-2 border rounded h-20"
                           placeholder="POINT(-73.9855 40.7580)"
                         />
@@ -222,7 +224,11 @@ export default function GeoJSONWKTDocs() {
                           type="number"
                           value={item.area || ''}
                           onChange={(e) =>
-                            updateData(index, 'area', parseInt(e.target.value) || 0)
+                            updateData(
+                              index,
+                              'area',
+                              parseInt(e.target.value) || 0
+                            )
                           }
                           className="w-full p-2 border rounded"
                         />
@@ -242,7 +248,9 @@ export default function GeoJSONWKTDocs() {
 
             {/* Field Configuration */}
             <div>
-              <label className="block text-sm font-medium mb-1">WKT Field</label>
+              <label className="block text-sm font-medium mb-1">
+                WKT Field
+              </label>
               <input
                 type="text"
                 value={request.wktField}
