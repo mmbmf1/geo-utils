@@ -16,9 +16,9 @@ interface FormData {
 
 export default function DistanceDocs() {
   const [formData, setFormData] = useState<FormData>({
-    point1: { latitude: '', longitude: '' },
-    point2: { latitude: '', longitude: '' },
-    unit: 'Meters',
+    point1: { latitude: 40.7128, longitude: -74.006 }, // NYC
+    point2: { latitude: 34.0522, longitude: -118.2437 }, // LA
+    unit: 'Miles',
   })
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
