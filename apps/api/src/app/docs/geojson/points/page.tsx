@@ -86,190 +86,269 @@ export default function GeoJSONPointsDocs() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">GeoJSON Points API</h1>
+    <div>
+      <h1>GeoJSON Points API</h1>
 
-      <div className="mb-6">
-        <p className="text-gray-600 mb-4">
-          Convert coordinate data to GeoJSON FeatureCollection format. Perfect
-          for mapping applications and data visualization.
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Data Array */}
+      <div>
         <div>
-          <h2 className="text-xl font-semibold mb-4">Data</h2>
-          <div className="space-y-4">
-            {request.data.map((item, index) => (
-              <div key={index} className="border p-4 rounded-lg">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="font-medium">Item {index + 1}</h3>
-                  <button
-                    type="button"
-                    onClick={() => removeDataRow(index)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      value={item.name || ''}
-                      onChange={(e) =>
-                        updateData(index, 'name', e.target.value)
-                      }
-                      className="w-full p-2 border rounded"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Latitude
-                    </label>
-                    <input
-                      type="number"
-                      step="any"
-                      value={item.lat || ''}
-                      onChange={(e) =>
-                        updateData(
-                          index,
-                          'lat',
-                          parseFloat(e.target.value) || 0
-                        )
-                      }
-                      className="w-full p-2 border rounded"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Longitude
-                    </label>
-                    <input
-                      type="number"
-                      step="any"
-                      value={item.lng || ''}
-                      onChange={(e) =>
-                        updateData(
-                          index,
-                          'lng',
-                          parseFloat(e.target.value) || 0
-                        )
-                      }
-                      className="w-full p-2 border rounded"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Population
-                    </label>
-                    <input
-                      type="number"
-                      value={item.population || ''}
-                      onChange={(e) =>
-                        updateData(
-                          index,
-                          'population',
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      className="w-full p-2 border rounded"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addDataRow}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Add Data Row
-            </button>
-          </div>
-        </div>
+          <h2>API Endpoint</h2>
+          <pre>
+            <code>POST /api/geojson/points</code>
+          </pre>
 
-        {/* Field Configuration */}
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Latitude Field
-            </label>
-            <input
-              type="text"
-              value={request.latField}
-              onChange={(e) =>
-                setRequest({ ...request, latField: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Longitude Field
-            </label>
-            <input
-              type="text"
-              value={request.lngField}
-              onChange={(e) =>
-                setRequest({ ...request, lngField: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-            />
-          </div>
-        </div>
+          <h2>Request Body</h2>
+          <pre>
+            <code>
+              {`{
+  "data": [
+    {
+      "name": "Kansas City",
+      "lat": 39.0997,
+      "lng": -94.5786,
+      "population": 508090
+    },
+    {
+      "name": "St. Louis", 
+      "lat": 38.6270,
+      "lng": -90.1994,
+      "population": 301578
+    }
+  ],
+  "latField": "lat",
+  "lngField": "lng",
+  "properties": ["name", "population"]
+}`}
+            </code>
+          </pre>
 
-        {/* Properties */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Properties (comma-separated)
-          </label>
-          <input
-            type="text"
-            value={request.properties?.join(', ') || ''}
-            onChange={(e) =>
-              setRequest({
-                ...request,
-                properties: e.target.value
-                  .split(',')
-                  .map((p) => p.trim())
-                  .filter((p) => p),
-              })
-            }
-            placeholder="name, population"
-            className="w-full p-2 border rounded"
-          />
-        </div>
+          <h2>Response</h2>
+          <pre>
+            <code>
+              {`{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-94.5786, 39.0997]
+      },
+      "properties": {
+        "name": "Kansas City",
+        "population": 508090
+      }
+    }
+  ]
+}`}
+            </code>
+          </pre>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-        >
-          {loading ? 'Generating...' : 'Generate GeoJSON'}
-        </button>
-      </form>
-
-      {/* Response */}
-      {error && (
-        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-red-800 font-medium mb-2">Error</h3>
-          <p className="text-red-700">{error}</p>
-        </div>
-      )}
-
-      {response && (
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Response</h3>
-          <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
-            {JSON.stringify(response, null, 2)}
+          <h2>Example</h2>
+          <pre>
+            <code>
+              {`fetch('https://geo-utils.vercel.app/api/geojson/points', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    data: [
+      {
+        name: "Kansas City",
+        lat: 39.0997,
+        lng: -94.5786,
+        population: 508090
+      }
+    ],
+    latField: "lat",
+    lngField: "lng",
+    properties: ["name", "population"]
+  }),
+})
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Error:', error))`}
+            </code>
           </pre>
         </div>
-      )}
+
+        <div>
+          <h2>Testing Interface</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Data Array */}
+            <div>
+              <h3>Data</h3>
+              <div className="space-y-4">
+                {request.data.map((item, index) => (
+                  <div key={index} className="border p-4 rounded-lg">
+                    <div className="flex justify-between items-center mb-3">
+                      <h4 className="font-medium">Item {index + 1}</h4>
+                      <button
+                        type="button"
+                        onClick={() => removeDataRow(index)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          value={item.name || ''}
+                          onChange={(e) =>
+                            updateData(index, 'name', e.target.value)
+                          }
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          Latitude
+                        </label>
+                        <input
+                          type="number"
+                          step="any"
+                          value={item.lat || ''}
+                          onChange={(e) =>
+                            updateData(
+                              index,
+                              'lat',
+                              parseFloat(e.target.value) || 0
+                            )
+                          }
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          Longitude
+                        </label>
+                        <input
+                          type="number"
+                          step="any"
+                          value={item.lng || ''}
+                          onChange={(e) =>
+                            updateData(
+                              index,
+                              'lng',
+                              parseFloat(e.target.value) || 0
+                            )
+                          }
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          Population
+                        </label>
+                        <input
+                          type="number"
+                          value={item.population || ''}
+                          onChange={(e) =>
+                            updateData(
+                              index,
+                              'population',
+                              parseInt(e.target.value) || 0
+                            )
+                          }
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addDataRow}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Add Data Row
+                </button>
+              </div>
+            </div>
+
+            {/* Field Configuration */}
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Latitude Field
+                </label>
+                <input
+                  type="text"
+                  value={request.latField}
+                  onChange={(e) =>
+                    setRequest({ ...request, latField: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Longitude Field
+                </label>
+                <input
+                  type="text"
+                  value={request.lngField}
+                  onChange={(e) =>
+                    setRequest({ ...request, lngField: e.target.value })
+                  }
+                  className="w-full p-2 border rounded"
+                />
+              </div>
+            </div>
+
+            {/* Properties */}
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Properties (comma-separated)
+              </label>
+              <input
+                type="text"
+                value={request.properties?.join(', ') || ''}
+                onChange={(e) =>
+                  setRequest({
+                    ...request,
+                    properties: e.target.value
+                      .split(',')
+                      .map((p) => p.trim())
+                      .filter((p) => p),
+                  })
+                }
+                placeholder="name, population"
+                className="w-full p-2 border rounded"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+            >
+              {loading ? 'Generating...' : 'Generate GeoJSON'}
+            </button>
+          </form>
+
+          {error && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <h3 className="text-red-800 font-medium mb-2">Error</h3>
+              <p className="text-red-700">{error}</p>
+            </div>
+          )}
+
+          {response && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold mb-2">Response</h3>
+              <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                {JSON.stringify(response, null, 2)}
+              </pre>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
