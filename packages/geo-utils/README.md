@@ -1,6 +1,6 @@
 # @mmbmf1/geo-utils
 
-Geospatial utility functions for calculating distances between geographical points using PostGIS calculations.
+Geospatial utility functions for calculating distances between geographical points and generating GeoJSON using PostGIS calculations.
 
 ## Installation
 
@@ -33,6 +33,44 @@ try {
     }
   }
 }
+
+// Generate GeoJSON from coordinate data
+try {
+  const geojson = await geoUtils.generateGeoJSONFromPoints({
+    data: [
+      { name: 'Kansas City', lat: 39.0997, lng: -94.5786, population: 508090 },
+      { name: 'St. Louis', lat: 38.627, lng: -90.1994, population: 301578 },
+    ],
+    latField: 'lat',
+    lngField: 'lng',
+    properties: ['name', 'population'],
+  })
+  console.log(geojson) // GeoJSON FeatureCollection
+} catch (error) {
+  if (error instanceof GeoUtilsError) {
+    console.error('Error:', error.message)
+  }
+}
+
+// Generate GeoJSON from WKT geometries
+try {
+  const geojson = await geoUtils.generateGeoJSONFromWKT({
+    data: [
+      {
+        name: 'Central Park',
+        wkt: 'POLYGON((-73.9654 40.7829, -73.9654 40.8012, -73.9497 40.8012, -73.9497 40.7829, -73.9654 40.7829))',
+      },
+      { name: 'Times Square', wkt: 'POINT(-73.9855 40.7580)' },
+    ],
+    wktField: 'wkt',
+    properties: ['name'],
+  })
+  console.log(geojson) // GeoJSON FeatureCollection
+} catch (error) {
+  if (error instanceof GeoUtilsError) {
+    console.error('Error:', error.message)
+  }
+}
 ```
 
 ## API Reference
@@ -62,6 +100,37 @@ Calculates the geodetic distance between two geographical points.
 ##### Returns
 
 - `Promise<number>`: Distance between the points in the specified unit
+
+#### generateGeoJSONFromPoints(request)
+
+Converts coordinate data to GeoJSON FeatureCollection.
+
+##### Parameters
+
+- `request` (object): Request object
+  - `data` (array): Array of objects containing coordinate data
+  - `latField` (string): Field name for latitude values
+  - `lngField` (string): Field name for longitude values
+  - `properties` (array, optional): Array of property field names to include
+
+##### Returns
+
+- `Promise<GeoJSON.FeatureCollection>`: GeoJSON FeatureCollection
+
+#### generateGeoJSONFromWKT(request)
+
+Converts WKT geometry strings to GeoJSON FeatureCollection.
+
+##### Parameters
+
+- `request` (object): Request object
+  - `data` (array): Array of objects containing WKT data
+  - `wktField` (string): Field name for WKT geometry strings
+  - `properties` (array, optional): Array of property field names to include
+
+##### Returns
+
+- `Promise<GeoJSON.FeatureCollection>`: GeoJSON FeatureCollection
 
 ##### Throws
 
@@ -107,7 +176,7 @@ To run the tests:
 pnpm test
 ```
 
-This will run the test suite which verifies the core distance calculation functionality.
+This will run the test suite which verifies distance calculations and GeoJSON generation functionality.
 
 ## License
 
