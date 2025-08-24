@@ -1,6 +1,6 @@
 {
   "name": "@mmbmf1/geo-utils",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Geospatial utility functions for calculating distances between geographical points using PostGIS calculations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
