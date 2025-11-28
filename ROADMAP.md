@@ -17,6 +17,9 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Interactive documentation UI for all endpoints
 - ✅ Updated READMEs and package documentation
 - ✅ Published to npm (v0.2.0)
+- ✅ Next.js 16 upgrade with React 19.2.0
+- ✅ Copy-to-clipboard functionality (v0.2.1)
+- ✅ UI/UX polish with modern design (v0.2.2)
 
 ## Completed Features 🎉
 
@@ -32,21 +35,27 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Perfect for mapping applications and data visualization
 - ✅ Example use case: Convert location data with properties to GeoJSON for mapping
 
+### Documentation & Developer Experience (v0.2.1) - COMPLETED
+
+- ✅ Copy-to-clipboard functionality for code examples and responses
+- ✅ Reusable CopyButton and CodeBlock components
+- ✅ Copy buttons on all code blocks (Request Body, Response, Example Usage)
+- ✅ Copy buttons on live API response JSON
+- ✅ Improved documentation UI structure
+
+### UI/UX Polish (v0.2.2) - COMPLETED
+
+- ✅ Modern, polished UI with improved visual design
+- ✅ Light gray background with white card containers
+- ✅ Subtle shadows and borders for depth
+- ✅ Improved spacing and typography
+- ✅ Responsive grid layouts
+- ✅ Hover effects on interactive elements
+- ✅ Better visual hierarchy and section separation
+- ✅ Navigation links ("Back to API") on all docs pages
+- ✅ Next.js 16 upgrade with React 19.2.0 and TypeScript 5.9.3
+
 ## Coming Soon ⏳
-
-### Documentation & Developer Experience (v0.2.1)
-
-- Copy-to-clipboard functionality for code examples and responses
-- Enhanced error messages and validation feedback
-- Additional usage examples and tutorials
-- API reference documentation improvements
-
-### UI/UX Polish (v0.2.2)
-
-- Improved styling and responsive design
-- Better loading states and user feedback
-- Accessibility improvements
-- Enhanced interactive examples
 
 ### Testing & Reliability (v0.2.3)
 
@@ -55,7 +64,18 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - Performance benchmarks and monitoring
 - Error handling improvements
 
-### Performance & Optimization (v0.2.4)
+### Documentation Enhancements (v0.2.4)
+
+- Field descriptions and help text for all parameters
+- Parameter descriptions section explaining each request field
+- Use case examples with real-world scenarios
+- Technical details (coordinate systems, geodetic distance explanation)
+- Error handling guide with common errors and troubleshooting
+- Response field descriptions
+- Tips and best practices sections
+- Related endpoints links
+
+### Performance & Optimization (v0.2.5)
 
 - API response time optimizations
 - Database query improvements
@@ -91,8 +111,10 @@ We welcome contributions! If you're interested in helping with any of these feat
 
 ## Version History
 
+- v0.2.2: UI/UX polish with modern design, improved spacing, card-based layouts, and Next.js 16 upgrade
+- v0.2.1: Copy-to-clipboard functionality for code examples and API responses, improved documentation UI
+- v0.2.0: Added GeoJSON generation from points and WKT geometries, client package methods, comprehensive testing, and interactive documentation UI
 - v0.1.4: Added input validation and improved error handling
 - v0.1.3: Initial public release with distance calculations
-- v0.2.0: Added GeoJSON generation from points and WKT geometries, client package methods, comprehensive testing, and interactive documentation UI
 
-Last Updated: 2025-08-24
+Last Updated: 2025-11-28
