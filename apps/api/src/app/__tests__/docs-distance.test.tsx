@@ -33,9 +33,11 @@ describe('Distance Documentation Page', () => {
 
     it('renders the response section', () => {
       render(<DistanceDocs />)
-      expect(
-        screen.getByText(/response/i, { selector: 'h2' })
-      ).toBeInTheDocument()
+      // Check for the Response heading (h3)
+      const responseHeading = screen
+        .getAllByText(/response/i)
+        .find((el) => el.tagName === 'H3')
+      expect(responseHeading).toBeInTheDocument()
       expect(screen.getByText(/"distance":/i)).toBeInTheDocument()
     })
 
@@ -49,7 +51,7 @@ describe('Distance Documentation Page', () => {
   describe('Testing Interface', () => {
     it('renders the testing interface section', () => {
       render(<DistanceDocs />)
-      expect(screen.getByText(/testing interface/i)).toBeInTheDocument()
+      expect(screen.getByText(/test the api/i)).toBeInTheDocument()
     })
 
     it('has input fields for coordinates with default values', () => {
@@ -229,7 +231,7 @@ describe('Distance Documentation Page', () => {
       await userEvent.click(submitButton)
 
       // Check for the result display
-      const resultText = await screen.findByText(/Distance: 2445.20 miles/i)
+      const resultText = await screen.findByText(/2445\.20 miles/i)
       expect(resultText).toBeInTheDocument()
     })
   })

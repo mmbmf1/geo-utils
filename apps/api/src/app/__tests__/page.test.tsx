@@ -14,10 +14,11 @@ describe('Home page', () => {
     const distanceSection = screen.getByText('Distance Calculation')
     expect(distanceSection).toBeInTheDocument()
 
-    // Check the link to docs
-    const docsLink = screen.getByRole('link', { name: 'Distance Calculation' })
+    // Check the link to docs (now the entire card is a link)
+    const docsLink = screen.getByRole('link', {
+      name: /Distance Calculation.*Calculate the geodetic distance between two points.*POST \/api\/distance/i,
+    })
     expect(docsLink).toHaveAttribute('href', '/docs/distance')
-    expect(docsLink).toHaveClass('hover:text-blue-500')
 
     // Check description text
     expect(
