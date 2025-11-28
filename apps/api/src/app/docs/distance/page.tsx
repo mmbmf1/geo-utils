@@ -130,7 +130,26 @@ export default function DistanceDocs() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <a
+          href="/"
+          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+        >
+          <svg
+            className="w-3 h-3 mr-1.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to API
+        </a>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Distance Calculation
         </h1>
@@ -139,10 +158,10 @@ export default function DistanceDocs() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-6">
         {/* Documentation Section */}
         <div className="space-y-6">
-          <div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               API Documentation
             </h2>
@@ -181,14 +200,14 @@ export default function DistanceDocs() {
 
         {/* Testing Interface */}
         <div className="space-y-6">
-          <div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Test the API
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Point 1 */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm">
                 <h3 className="text-sm font-semibold text-gray-900 mb-4">
                   Point 1
                 </h3>
@@ -235,7 +254,7 @@ export default function DistanceDocs() {
               </div>
 
               {/* Point 2 */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm">
                 <h3 className="text-sm font-semibold text-gray-900 mb-4">
                   Point 2
                 </h3>

@@ -163,7 +163,26 @@ export default function GeoJSONWKTDocs() {
 
   return (
     <div className="space-y-8">
-      <div>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <a
+          href="/"
+          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
+        >
+          <svg
+            className="w-3 h-3 mr-1.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to API
+        </a>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           GeoJSON WKT API
         </h1>
@@ -172,10 +191,10 @@ export default function GeoJSONWKTDocs() {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 gap-6">
         {/* Documentation Section */}
         <div className="space-y-6">
-          <div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               API Documentation
             </h2>
@@ -214,7 +233,7 @@ export default function GeoJSONWKTDocs() {
 
         {/* Testing Interface */}
         <div className="space-y-6">
-          <div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Test the API
             </h2>
@@ -229,7 +248,7 @@ export default function GeoJSONWKTDocs() {
                   {request.data.map((item, index) => (
                     <div
                       key={index}
-                      className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                      className="bg-gray-50 p-4 rounded-lg border border-gray-200 shadow-sm"
                     >
                       <div className="flex justify-between items-center mb-3">
                         <h4 className="font-medium text-gray-900">
