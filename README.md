@@ -65,7 +65,9 @@ See the [API Documentation](apps/api/README.md) and [Package Documentation](pack
 
 ## Tech Stack
 
-- Next.js
+- Next.js 16.0.5
+- React 19.2.0
 - Vercel Postgres with PostGIS
-- TypeScript
+- TypeScript 5.9.3
+- Tailwind CSS 4
 - pnpm workspaces
