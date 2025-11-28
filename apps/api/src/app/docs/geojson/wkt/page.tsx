@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { CodeBlock } from '@/components/CodeBlock'
+import { CopyButton } from '@/components/CopyButton'
 
 interface GeoJSONWKTRequest {
   data: Array<Record<string, any>>
@@ -89,64 +91,56 @@ export default function GeoJSONWKTDocs() {
     setRequest({ ...request, data: newData })
   }
 
-  return (
-    <div>
-      <h1>GeoJSON WKT API</h1>
-
-      <div>
-        <div>
-          <h2>API Endpoint</h2>
-          <pre>
-            <code>POST /api/geojson/wkt</code>
-          </pre>
-
-          <h2>Request Body</h2>
-          <pre>
-            <code>
-              {`{
-  "data": [
+  const requestBodyExample = JSON.stringify(
     {
-      "name": "Central Park",
-      "wkt": "POLYGON((-73.9654 40.7829, -73.9654 40.8012, -73.9497 40.8012, -73.9497 40.7829, -73.9654 40.7829))",
-      "area": 843
+      data: [
+        {
+          name: 'Central Park',
+          wkt: 'POLYGON((-73.9654 40.7829, -73.9654 40.8012, -73.9497 40.8012, -73.9497 40.7829, -73.9654 40.7829))',
+          area: 843,
+        },
+        {
+          name: 'Times Square',
+          wkt: 'POINT(-73.9855 40.7580)',
+        },
+      ],
+      wktField: 'wkt',
+      properties: ['name', 'area'],
     },
-    {
-      "name": "Times Square",
-      "wkt": "POINT(-73.9855 40.7580)"
-    }
-  ],
-  "wktField": "wkt",
-  "properties": ["name", "area"]
-}`}
-            </code>
-          </pre>
+    null,
+    2
+  )
 
-          <h2>Response</h2>
-          <pre>
-            <code>
-              {`{
-  "type": "FeatureCollection",
-  "features": [
+  const responseExample = JSON.stringify(
     {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[[-73.9654, 40.7829], [-73.9654, 40.8012], [-73.9497, 40.8012], [-73.9497, 40.7829], [-73.9654, 40.7829]]]
-      },
-      "properties": {
-        "name": "Central Park",
-        "area": 843
-      }
-    }
-  ]
-}`}
-            </code>
-          </pre>
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [
+              [
+                [-73.9654, 40.7829],
+                [-73.9654, 40.8012],
+                [-73.9497, 40.8012],
+                [-73.9497, 40.7829],
+                [-73.9654, 40.7829],
+              ],
+            ],
+          },
+          properties: {
+            name: 'Central Park',
+            area: 843,
+          },
+        },
+      ],
+    },
+    null,
+    2
+  )
 
-          <h2>Example</h2>
-          <pre>
-            <code>
-              {`fetch('https://geo-utils.vercel.app/api/geojson/wkt', {
+  const fetchExample = `fetch('https://geo-utils.vercel.app/api/geojson/wkt', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -165,148 +159,218 @@ export default function GeoJSONWKTDocs() {
 })
   .then((response) => response.json())
   .then((data) => console.log(data))
-  .catch((error) => console.error('Error:', error))`}
-            </code>
-          </pre>
-        </div>
+  .catch((error) => console.error('Error:', error))`
 
-        <div>
-          <h2>Testing Interface</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Data Array */}
-            <div>
-              <h3>Data</h3>
-              <div className="space-y-4">
-                {request.data.map((item, index) => (
-                  <div key={index} className="border p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-3">
-                      <h4 className="font-medium">Item {index + 1}</h4>
-                      <button
-                        type="button"
-                        onClick={() => removeDataRow(index)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-1">
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          value={item.name || ''}
-                          onChange={(e) =>
-                            updateData(index, 'name', e.target.value)
-                          }
-                          className="w-full p-2 border rounded"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-1">
-                          WKT Geometry
-                        </label>
-                        <textarea
-                          value={item.wkt || ''}
-                          onChange={(e) =>
-                            updateData(index, 'wkt', e.target.value)
-                          }
-                          className="w-full p-2 border rounded h-20"
-                          placeholder="POINT(-73.9855 40.7580)"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-1">
-                          Area (optional)
-                        </label>
-                        <input
-                          type="number"
-                          value={item.area || ''}
-                          onChange={(e) =>
-                            updateData(
-                              index,
-                              'area',
-                              parseInt(e.target.value) || 0
-                            )
-                          }
-                          className="w-full p-2 border rounded"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={addDataRow}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Add Data Row
-                </button>
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          GeoJSON WKT API
+        </h1>
+        <p className="text-gray-600">
+          Convert WKT geometry strings to GeoJSON FeatureCollection
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Documentation Section */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              API Documentation
+            </h2>
+
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Endpoint
+                </h3>
+                <CodeBlock code="POST /api/geojson/wkt" />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Request Body
+                </h3>
+                <CodeBlock code={requestBodyExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Response
+                </h3>
+                <CodeBlock code={responseExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Example Usage
+                </h3>
+                <CodeBlock code={fetchExample} />
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Field Configuration */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                WKT Field
-              </label>
-              <input
-                type="text"
-                value={request.wktField}
-                onChange={(e) =>
-                  setRequest({ ...request, wktField: e.target.value })
-                }
-                className="w-full p-2 border rounded"
-              />
-            </div>
+        {/* Testing Interface */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Test the API
+            </h2>
 
-            {/* Properties */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Properties (comma-separated)
-              </label>
-              <input
-                type="text"
-                value={request.properties?.join(', ') || ''}
-                onChange={(e) =>
-                  setRequest({
-                    ...request,
-                    properties: e.target.value
-                      .split(',')
-                      .map((p) => p.trim())
-                      .filter((p) => p),
-                  })
-                }
-                placeholder="name, area"
-                className="w-full p-2 border rounded"
-              />
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Data Array */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  Data Points
+                </h3>
+                <div className="space-y-4">
+                  {request.data.map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                    >
+                      <div className="flex justify-between items-center mb-3">
+                        <h4 className="font-medium text-gray-900">
+                          Item {index + 1}
+                        </h4>
+                        <button
+                          type="button"
+                          onClick={() => removeDataRow(index)}
+                          className="text-sm text-red-600 hover:text-red-800 font-medium"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Name
+                          </label>
+                          <input
+                            type="text"
+                            value={item.name || ''}
+                            onChange={(e) =>
+                              updateData(index, 'name', e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            WKT Geometry
+                          </label>
+                          <textarea
+                            value={item.wkt || ''}
+                            onChange={(e) =>
+                              updateData(index, 'wkt', e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 font-mono text-sm"
+                            placeholder="POINT(-73.9855 40.7580)"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Area (optional)
+                          </label>
+                          <input
+                            type="number"
+                            value={item.area || ''}
+                            onChange={(e) =>
+                              updateData(
+                                index,
+                                'area',
+                                parseInt(e.target.value) || 0
+                              )
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addDataRow}
+                    className="w-full px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                  >
+                    Add Data Row
+                  </button>
+                </div>
+              </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-            >
-              {loading ? 'Generating...' : 'Generate GeoJSON'}
-            </button>
-          </form>
+              {/* Field Configuration */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  WKT Field
+                </label>
+                <input
+                  type="text"
+                  value={request.wktField}
+                  onChange={(e) =>
+                    setRequest({ ...request, wktField: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
 
-          {error && (
-            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <h3 className="text-red-800 font-medium mb-2">Error</h3>
-              <p className="text-red-700">{error}</p>
-            </div>
-          )}
+              {/* Properties */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Properties (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  value={request.properties?.join(', ') || ''}
+                  onChange={(e) =>
+                    setRequest({
+                      ...request,
+                      properties: e.target.value
+                        .split(',')
+                        .map((p) => p.trim())
+                        .filter((p) => p),
+                    })
+                  }
+                  placeholder="name, area"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
 
-          {response && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Response</h3>
-              <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
-                {JSON.stringify(response, null, 2)}
-              </pre>
-            </div>
-          )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {loading ? 'Generating...' : 'Generate GeoJSON'}
+              </button>
+            </form>
+
+            {/* Error Display */}
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <h3 className="text-red-800 font-medium mb-2">Error</h3>
+                <p className="text-red-700 text-sm">{error}</p>
+              </div>
+            )}
+
+            {/* Response Display */}
+            {response && (
+              <div className="mt-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Response
+                  </h3>
+                  <CopyButton text={JSON.stringify(response, null, 2)} />
+                </div>
+                <div className="relative group">
+                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                    <code>{JSON.stringify(response, null, 2)}</code>
+                  </pre>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
