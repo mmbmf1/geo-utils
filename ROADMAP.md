@@ -18,8 +18,8 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Updated READMEs and package documentation
 - ✅ Published to npm (v0.2.0)
 - ✅ Next.js 16 upgrade with React 19.2.0
-- ✅ Copy-to-clipboard functionality (v0.2.1)
-- ✅ UI/UX polish with modern design (v0.2.2)
+- ✅ Copy-to-clipboard functionality (v0.2.1 - API only)
+- ✅ UI/UX polish with modern design (v0.2.2 - API only)
 
 ## Completed Features 🎉
 
@@ -37,6 +37,8 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 
 ### Documentation & Developer Experience (v0.2.1) - COMPLETED
 
+**Note: API-only changes - npm package remains at v0.2.0**
+
 - ✅ Copy-to-clipboard functionality for code examples and responses
 - ✅ Reusable CopyButton and CodeBlock components
 - ✅ Copy buttons on all code blocks (Request Body, Response, Example Usage)
@@ -44,6 +46,8 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 - ✅ Improved documentation UI structure
 
 ### UI/UX Polish (v0.2.2) - COMPLETED
+
+**Note: API-only changes - npm package remains at v0.2.0**
 
 - ✅ Modern, polished UI with improved visual design
 - ✅ Light gray background with white card containers
@@ -111,10 +115,12 @@ We welcome contributions! If you're interested in helping with any of these feat
 
 ## Version History
 
-- v0.2.2: UI/UX polish with modern design, improved spacing, card-based layouts, and Next.js 16 upgrade
-- v0.2.1: Copy-to-clipboard functionality for code examples and API responses, improved documentation UI
-- v0.2.0: Added GeoJSON generation from points and WKT geometries, client package methods, comprehensive testing, and interactive documentation UI
+**Note:** Version numbers refer to API releases. The npm package `@mmbmf1/geo-utils` is currently at v0.2.0 and includes all API functionality. Versions v0.2.1 and v0.2.2 are API-only improvements (documentation UI enhancements) and do not require package version bumps.
+
+- v0.2.2 (API only): UI/UX polish with modern design, improved spacing, card-based layouts, and Next.js 16 upgrade
+- v0.2.1 (API only): Copy-to-clipboard functionality for code examples and API responses, improved documentation UI
+- v0.2.0: Added GeoJSON generation from points and WKT geometries, client package methods, comprehensive testing, and interactive documentation UI. **Published to npm.**
 - v0.1.4: Added input validation and improved error handling
 - v0.1.3: Initial public release with distance calculations
 
-Last Updated: 2025-11-28
+Last Updated: 2025-12-27
