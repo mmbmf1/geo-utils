@@ -75,8 +75,8 @@ importers:
   packages/geo-utils:
     dependencies:
       '@mmbmf1/geo-utils-validation':
-        specifier: file:../geo-utils-validation
-        version: file:packages/geo-utils-validation
+        specifier: 0.1.2
+        version: link:../geo-utils-validation
     devDependencies:
       '@types/jest':
         specifier: 29.5.14
