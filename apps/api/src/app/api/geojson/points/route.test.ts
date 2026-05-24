@@ -37,7 +37,7 @@ function expectRfc7946FeatureCollection(geojson: any) {
     expectPosition(feature.geometry.coordinates)
     expect(feature.properties).toEqual(expect.any(Object))
   }
-})
+}
 
 describe('GeoJSON Points API', () => {
   beforeEach(() => {
@@ -131,4 +131,4 @@ describe('GeoJSON Points API', () => {
     })
     expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
   })
-}
+})
