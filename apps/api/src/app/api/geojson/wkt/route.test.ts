@@ -33,7 +33,7 @@ function expectPositions(coordinates: unknown) {
   for (const child of coordinates as unknown[]) {
     expectPositions(child)
   }
-}
+})
 
 function expectRfc7946FeatureCollection(geojson: any) {
   expect(geojson.type).toBe('FeatureCollection')

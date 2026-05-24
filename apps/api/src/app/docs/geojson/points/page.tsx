@@ -268,7 +268,7 @@ export default function GeoJSONPointsDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                  Related Endpoints
+                  Related Tools
                 </h3>
                 <div className="grid gap-3 text-sm">
                   <a
