@@ -24,7 +24,7 @@ function expectPosition(position: unknown) {
   expect(longitude).toBeLessThanOrEqual(180)
   expect(latitude).toBeGreaterThanOrEqual(-90)
   expect(latitude).toBeLessThanOrEqual(90)
-})
+}
 
 function expectRfc7946FeatureCollection(geojson: any) {
   expect(geojson.type).toBe('FeatureCollection')
@@ -37,7 +37,7 @@ function expectRfc7946FeatureCollection(geojson: any) {
     expectPosition(feature.geometry.coordinates)
     expect(feature.properties).toEqual(expect.any(Object))
   }
-}
+})
 
 describe('GeoJSON Points API', () => {
   beforeEach(() => {

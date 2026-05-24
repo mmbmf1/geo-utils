@@ -33,7 +33,7 @@ function expectPositions(coordinates: unknown) {
   for (const child of coordinates as unknown[]) {
     expectPositions(child)
   }
-})
+}
 
 function expectRfc7946FeatureCollection(geojson: any) {
   expect(geojson.type).toBe('FeatureCollection')
@@ -46,7 +46,7 @@ function expectRfc7946FeatureCollection(geojson: any) {
     expectPositions(feature.geometry.coordinates)
     expect(feature.properties).toEqual(expect.any(Object))
   }
-}
+})
 
 describe('GeoJSON WKT API', () => {
   beforeEach(() => {
