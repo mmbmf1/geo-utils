@@ -216,6 +216,52 @@ export default function GeoJSONWKTDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Parameters
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">data</code> is a
+                    non-empty array of records containing a WKT geometry field
+                    and optional metadata.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">wktField</code>{' '}
+                    names the string field that contains WKT such as{' '}
+                    <code className="font-mono text-gray-900">
+                      POINT(-73.9855 40.7580)
+                    </code>{' '}
+                    or a polygon.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">properties</code>{' '}
+                    is optional and controls which non-geometry fields are copied
+                    to the returned GeoJSON features.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Technical Notes
+                </h3>
+                <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900 space-y-3">
+                  <p>
+                    WKT coordinates are read as x/y pairs, which correspond to
+                    longitude/latitude for EPSG:4326 data. The returned GeoJSON
+                    follows RFC 7946 coordinate order and omits custom CRS
+                    metadata.
+                  </p>
+                  <p>
+                    Geometry conversion is delegated to PostGIS through the
+                    shared <code className="font-mono">generate_geojson</code>{' '}
+                    function, keeping parsing and coordinate serialization in
+                    the database layer.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -226,6 +272,28 @@ export default function GeoJSONWKTDocs() {
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Related Endpoints
+                </h3>
+                <div className="grid gap-3 text-sm">
+                  <a
+                    href="/docs/geojson/points"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    GeoJSON from Points - build point features from latitude and
+                    longitude columns
+                  </a>
+                  <a
+                    href="/docs/distance"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    Distance Calculation - calculate spheroid distance between
+                    two points
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -275,6 +343,10 @@ export default function GeoJSONWKTDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            Example metadata copied only if listed in
+                            properties.
+                          </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -288,6 +360,10 @@ export default function GeoJSONWKTDocs() {
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-24 font-mono text-sm"
                             placeholder="POINT(-73.9855 40.7580)"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            WKT geometry in longitude/latitude order for
+                            EPSG:4326 data.
+                          </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -305,6 +381,9 @@ export default function GeoJSONWKTDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            Optional source property for the feature metadata.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -332,6 +411,9 @@ export default function GeoJSONWKTDocs() {
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Name of the field containing WKT geometry strings.
+                  </p>
               </div>
 
               {/* Properties */}
@@ -354,6 +436,9 @@ export default function GeoJSONWKTDocs() {
                   placeholder="name, area"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
+                <p className="mt-1 text-xs text-gray-500">
+                  Comma-separated source fields to copy into feature.properties.
+                </p>
               </div>
 
               <button

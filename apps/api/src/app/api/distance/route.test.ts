@@ -51,6 +51,71 @@ describe('Distance API', () => {
     expect(sql as unknown as jest.Mock).toHaveBeenCalledTimes(1)
   })
 
+  it('should call the PostGIS distance function with lon/lat coordinate order', async () => {
+    ;(sql as unknown as jest.Mock).mockResolvedValueOnce({
+      rows: [{ distance: 2445.203 }],
+      command: '',
+      rowCount: 1,
+      oid: 0,
+      fields: [],
+    })
+
+    const request = new Request('http://localhost:3000/api/distance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        point1: { latitude: 40.7128, longitude: -74.006 },
+        point2: { latitude: 34.0522, longitude: -118.2437 },
+        unit: 'miles',
+      }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+    const sqlCall = (sql as unknown as jest.Mock).mock.calls[0]
+    const sqlText = sqlCall[0].join(' ')
+
+    expect(data).toEqual({ distance: 2445.203 })
+    expect(sqlText).toContain('geo.calculate_distance')
+    expect(sqlCall.slice(1)).toEqual([
+      -74.006,
+      40.7128,
+      -118.2437,
+      34.0522,
+      'miles',
+    ])
+  })
+
+  it('should default the PostGIS distance unit to miles', async () => {
+    ;(sql as unknown as jest.Mock).mockResolvedValueOnce({
+      rows: [{ distance: 2445.203 }],
+      command: '',
+      rowCount: 1,
+      oid: 0,
+      fields: [],
+    })
+
+    const request = new Request('http://localhost:3000/api/distance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        point1: { latitude: 40.7128, longitude: -74.006 },
+        point2: { latitude: 34.0522, longitude: -118.2437 },
+      }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+    const sqlCall = (sql as unknown as jest.Mock).mock.calls[0]
+
+    expect(data.distance).toBeCloseTo(2445.203, 3)
+    expect(sqlCall[5]).toBe('miles')
+  })
+
   it('should return validation errors for invalid coordinates', async () => {
     const request = new Request('http://localhost:3000/api/distance', {
       method: 'POST',

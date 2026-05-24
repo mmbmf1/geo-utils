@@ -83,10 +83,10 @@ export function validateGeoJSONPointsRequest(data: any): ValidationError[] {
   const errors: ValidationError[] = []
 
   // validate data array exists and is an array
-  if (!data.data || !Array.isArray(data.data)) {
+  if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
     errors.push({
       field: 'data',
-      message: 'data must be an array',
+      message: 'data must be a non-empty array',
     })
     return errors
   }
@@ -113,20 +113,46 @@ export function validateGeoJSONPointsRequest(data: any): ValidationError[] {
       field: 'properties',
       message: 'properties must be an array',
     })
+  } else if (
+    Array.isArray(data.properties) &&
+    data.properties.some((property: any) => typeof property !== 'string')
+  ) {
+    errors.push({
+      field: 'properties',
+      message: 'properties must contain only field names',
+    })
   }
 
   // validate each data item has the required fields
   data.data.forEach((item: any, index: number) => {
-    if (!item[data.latField] || typeof item[data.latField] !== 'number') {
+    const latitude = item[data.latField]
+    const longitude = item[data.lngField]
+
+    if (latitude === undefined || typeof latitude !== 'number' || isNaN(latitude)) {
       errors.push({
         field: `data[${index}].${data.latField}`,
         message: `${data.latField} must be a number`,
       })
+    } else if (latitude < -90 || latitude > 90) {
+      errors.push({
+        field: `data[${index}].${data.latField}`,
+        message: `${data.latField} must be between -90 and 90 degrees`,
+      })
     }
-    if (!item[data.lngField] || typeof item[data.lngField] !== 'number') {
+
+    if (
+      longitude === undefined ||
+      typeof longitude !== 'number' ||
+      isNaN(longitude)
+    ) {
       errors.push({
         field: `data[${index}].${data.lngField}`,
         message: `${data.lngField} must be a number`,
+      })
+    } else if (longitude < -180 || longitude > 180) {
+      errors.push({
+        field: `data[${index}].${data.lngField}`,
+        message: `${data.lngField} must be between -180 and 180 degrees`,
       })
     }
   })
