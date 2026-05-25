@@ -163,11 +163,11 @@ export function validateGeoJSONPointsRequest(data: any): ValidationError[] {
 export function validateGeoJSONWKTRequest(data: any): ValidationError[] {
   const errors: ValidationError[] = []
 
-  // validate data array exists and is an array
-  if (!data.data || !Array.isArray(data.data)) {
+  // validate data array exists and is a non-empty array
+  if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
     errors.push({
       field: 'data',
-      message: 'data must be an array',
+      message: 'data must be a non-empty array',
     })
     return errors
   }
@@ -185,6 +185,14 @@ export function validateGeoJSONWKTRequest(data: any): ValidationError[] {
     errors.push({
       field: 'properties',
       message: 'properties must be an array',
+    })
+  } else if (
+    Array.isArray(data.properties) &&
+    data.properties.some((property: any) => typeof property !== 'string')
+  ) {
+    errors.push({
+      field: 'properties',
+      message: 'properties must contain only field names',
     })
   }
 
