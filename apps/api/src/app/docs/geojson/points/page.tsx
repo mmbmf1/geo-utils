@@ -210,6 +210,50 @@ export default function GeoJSONPointsDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Parameters
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">data</code> is a
+                    non-empty array of records containing coordinate fields and
+                    optional metadata.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">latField</code>{' '}
+                    and <code className="font-mono text-gray-900">lngField</code>{' '}
+                    name the numeric latitude and longitude fields in each
+                    record. Latitude must be -90 to 90; longitude must be -180
+                    to 180.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">properties</code>{' '}
+                    is optional and limits which source fields are copied into
+                    each GeoJSON feature properties object.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Technical Notes
+                </h3>
+                <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900 space-y-3">
+                  <p>
+                    GeoJSON uses RFC 7946 coordinate order: longitude first,
+                    latitude second. The API accepts separate latitude and
+                    longitude fields, then returns coordinates as{' '}
+                    <code className="font-mono">[longitude, latitude]</code>.
+                  </p>
+                  <p>
+                    Coordinates are treated as EPSG:4326 WGS 84 positions. No
+                    CRS member is returned because RFC 7946 standardizes GeoJSON
+                    on WGS 84.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -220,6 +264,28 @@ export default function GeoJSONPointsDocs() {
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Related Tools
+                </h3>
+                <div className="grid gap-3 text-sm">
+                  <a
+                    href="/docs/geojson/wkt"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    GeoJSON from WKT - convert existing WKT geometries instead
+                    of separate coordinate fields
+                  </a>
+                  <a
+                    href="/docs/distance"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    Distance Calculation - measure geodetic distance between two
+                    EPSG:4326 points
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -269,6 +335,10 @@ export default function GeoJSONPointsDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            Example metadata copied only if listed in
+                            properties.
+                          </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -287,6 +357,9 @@ export default function GeoJSONPointsDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            EPSG:4326 decimal degrees, -90 to 90.
+                          </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -305,6 +378,9 @@ export default function GeoJSONPointsDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            EPSG:4326 decimal degrees, -180 to 180.
+                          </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -322,6 +398,9 @@ export default function GeoJSONPointsDocs() {
                             }
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           />
+                          <p className="mt-1 text-xs text-gray-500">
+                            Optional source property for the feature metadata.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -350,6 +429,9 @@ export default function GeoJSONPointsDocs() {
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Name of the field containing latitude values.
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -363,6 +445,9 @@ export default function GeoJSONPointsDocs() {
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Name of the field containing longitude values.
+                  </p>
                 </div>
               </div>
 
@@ -386,6 +471,9 @@ export default function GeoJSONPointsDocs() {
                   placeholder="name, population"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
+                <p className="mt-1 text-xs text-gray-500">
+                  Comma-separated source fields to copy into feature.properties.
+                </p>
               </div>
 
               <button

@@ -183,6 +183,45 @@ export default function DistanceDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Parameters
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">point1</code> and{' '}
+                    <code className="font-mono text-gray-900">point2</code> are
+                    required WGS 84 coordinates with latitude in the range -90 to
+                    90 and longitude in the range -180 to 180.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">unit</code> is
+                    optional and defaults to miles. Supported values are meters,
+                    kilometers, miles, and feet.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Technical Notes
+                </h3>
+                <div className="rounded-lg border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900 space-y-3">
+                  <p>
+                    Coordinates are interpreted as EPSG:4326 longitude/latitude
+                    pairs. EPSG:4326 is the WGS 84 geographic coordinate system
+                    used by GPS and GeoJSON.
+                  </p>
+                  <p>
+                    Distance is calculated in PostGIS with spheroid-aware
+                    geodetic math through{' '}
+                    <code className="font-mono">geo.calculate_distance</code>,
+                    so long routes follow the earth ellipsoid instead of a flat
+                    map projection.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -193,6 +232,28 @@ export default function DistanceDocs() {
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Related Tools
+                </h3>
+                <div className="grid gap-3 text-sm">
+                  <a
+                    href="/docs/geojson/points"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    GeoJSON from Points - turn latitude/longitude rows into RFC
+                    7946 features
+                  </a>
+                  <a
+                    href="/docs/geojson/wkt"
+                    className="rounded-lg border border-gray-200 p-3 text-blue-700 hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    GeoJSON from WKT - convert PostGIS-style WKT geometries to
+                    GeoJSON
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -230,6 +291,9 @@ export default function DistanceDocs() {
                       step="0.000001"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Decimal degrees north/south, -90 to 90.
+                    </p>
                   </div>
                   <div>
                     <label
@@ -249,6 +313,9 @@ export default function DistanceDocs() {
                       step="0.000001"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Decimal degrees east/west, -180 to 180.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -277,6 +344,9 @@ export default function DistanceDocs() {
                       step="0.000001"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Decimal degrees north/south, -90 to 90.
+                    </p>
                   </div>
                   <div>
                     <label
@@ -296,6 +366,9 @@ export default function DistanceDocs() {
                       step="0.000001"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Decimal degrees east/west, -180 to 180.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -322,6 +395,10 @@ export default function DistanceDocs() {
                   <option value="Miles">Miles</option>
                   <option value="Feet">Feet</option>
                 </select>
+                <p className="mt-1 text-xs text-gray-500">
+                  Controls only the response unit; the PostGIS calculation
+                  remains geodetic.
+                </p>
               </div>
 
               <button
