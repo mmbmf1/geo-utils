@@ -151,4 +151,62 @@ describe('GeoJSON WKT API', () => {
     })
     expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
   })
+
+  it('should reject empty data before PostGIS conversion', async () => {
+    const request = new Request('http://localhost:3000/api/geojson/wkt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: [],
+        wktField: 'wkt',
+        properties: ['name'],
+      }),
+    })
+
+    const response = await POST(request as any)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      error: 'Validation error occurred',
+      errors: [
+        {
+          field: 'data',
+          message: 'data must be a non-empty array',
+        },
+      ],
+    })
+    expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
+  })
+
+  it('should reject non-string property names before PostGIS conversion', async () => {
+    const request = new Request('http://localhost:3000/api/geojson/wkt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: [{ name: 'Times Square', wkt: 'POINT(-73.9855 40.7580)' }],
+        wktField: 'wkt',
+        properties: ['name', 42],
+      }),
+    })
+
+    const response = await POST(request as any)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      error: 'Validation error occurred',
+      errors: [
+        {
+          field: 'properties',
+          message: 'properties must contain only field names',
+        },
+      ],
+    })
+    expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
+  })
 })

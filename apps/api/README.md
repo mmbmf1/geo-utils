@@ -194,3 +194,14 @@ The API uses a consistent error response format for all error cases:
 - `wktField` must be present and a valid field name
 - All WKT strings must be valid geometry formats
 - `properties` must be an array of valid field names (if provided)
+
+## Testing
+
+```bash
+pnpm --filter api test
+```
+
+Distance has an opt-in PostGIS integration test for
+`geo.calculate_distance`. It runs automatically when a Postgres connection
+string such as `POSTGRES_URL` or `DATABASE_URL` is present; otherwise Jest marks
+the live database spec as skipped while keeping mocked route tests active.
