@@ -227,7 +227,7 @@ export default function DistanceDocs() {
                 <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900 space-y-3">
                   <p>
                     The integration test suite can run against a PostGIS-enabled
-                    database and compares this endpoint to native{' '}
+                    database and compares this route to native{' '}
                     <code className="font-mono">
                       ST_Distance(...::geography)
                     </code>{' '}

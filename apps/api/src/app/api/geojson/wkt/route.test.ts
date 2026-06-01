@@ -1,6 +1,6 @@
 import { POST } from './route'
 import { sql } from '@vercel/postgres'
-import { expectRfc7946FeatureCollection } from '../test-utils/geojsonAssertions'
+import { expectRfc7946FeatureCollection } from '../../test-utils/geojsonAssertions'
 
 jest.mock('@vercel/postgres', () => ({
   sql: jest.fn(),
