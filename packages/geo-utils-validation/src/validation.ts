@@ -164,10 +164,10 @@ export function validateGeoJSONWKTRequest(data: any): ValidationError[] {
   const errors: ValidationError[] = []
 
   // validate data array exists and is an array
-  if (!data.data || !Array.isArray(data.data)) {
+  if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
     errors.push({
       field: 'data',
-      message: 'data must be an array',
+      message: 'data must be a non-empty array',
     })
     return errors
   }

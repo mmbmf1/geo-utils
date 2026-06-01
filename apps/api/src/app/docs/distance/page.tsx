@@ -222,6 +222,27 @@ export default function DistanceDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Accuracy Checks
+                </h3>
+                <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900 space-y-3">
+                  <p>
+                    The integration test suite can run against a PostGIS-enabled
+                    database and compares this endpoint to native{' '}
+                    <code className="font-mono">
+                      ST_Distance(...::geography)
+                    </code>{' '}
+                    results for the New York to Los Angeles sample.
+                  </p>
+                  <p>
+                    Unit conversions are verified from the same PostGIS meter
+                    result, so meters, kilometers, miles, and feet remain
+                    consistent with the spheroid calculation.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />

@@ -1,5 +1,6 @@
 import { POST } from './route'
 import { sql } from '@vercel/postgres'
+import { expectRfc7946FeatureCollection } from '../test-utils/geojsonAssertions'
 
 jest.mock('@vercel/postgres', () => ({
   sql: jest.fn(),
@@ -13,31 +14,6 @@ jest.mock('next/server', () => ({
     })),
   },
 }))
-
-function expectPosition(position: unknown) {
-  expect(Array.isArray(position)).toBe(true)
-  const [longitude, latitude] = position as number[]
-
-  expect(typeof longitude).toBe('number')
-  expect(typeof latitude).toBe('number')
-  expect(longitude).toBeGreaterThanOrEqual(-180)
-  expect(longitude).toBeLessThanOrEqual(180)
-  expect(latitude).toBeGreaterThanOrEqual(-90)
-  expect(latitude).toBeLessThanOrEqual(90)
-}
-
-function expectRfc7946FeatureCollection(geojson: any) {
-  expect(geojson.type).toBe('FeatureCollection')
-  expect(geojson.crs).toBeUndefined()
-  expect(Array.isArray(geojson.features)).toBe(true)
-
-  for (const feature of geojson.features) {
-    expect(feature.type).toBe('Feature')
-    expect(feature.geometry.type).toBe('Point')
-    expectPosition(feature.geometry.coordinates)
-    expect(feature.properties).toEqual(expect.any(Object))
-  }
-}
 
 describe('GeoJSON Points API', () => {
   beforeEach(() => {
@@ -89,6 +65,7 @@ describe('GeoJSON Points API', () => {
 
     expect(response.status).toBe(200)
     expectRfc7946FeatureCollection(data)
+    expect(data.features[0].geometry.type).toBe('Point')
     expect(sqlText).toContain('generate_geojson')
     expect(sqlCall.slice(1)).toEqual([
       JSON.stringify([{ name: 'Null Island', lat: 0, lng: 0 }]),

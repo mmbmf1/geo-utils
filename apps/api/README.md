@@ -194,3 +194,20 @@ The API uses a consistent error response format for all error cases:
 - `wktField` must be present and a valid field name
 - All WKT strings must be valid geometry formats
 - `properties` must be an array of valid field names (if provided)
+
+## Testing
+
+The standard API test suite uses mocked database responses for fast route and
+documentation checks:
+
+```bash
+pnpm --filter api test
+```
+
+Distance integration tests are included in
+`src/app/api/distance/route.integration.test.ts`. They run automatically when a
+Postgres connection environment variable is available (`POSTGRES_URL`,
+`POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`, or `DATABASE_URL`) and skip
+cleanly otherwise. These tests exercise `/api/distance` through the route handler,
+then compare `geo.calculate_distance` output to native PostGIS
+`ST_Distance(...::geography)` spheroid math and verify unit conversions.

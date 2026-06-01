@@ -1,5 +1,6 @@
 import { POST } from './route'
 import { sql } from '@vercel/postgres'
+import { expectRfc7946FeatureCollection } from '../test-utils/geojsonAssertions'
 
 jest.mock('@vercel/postgres', () => ({
   sql: jest.fn(),
@@ -13,40 +14,6 @@ jest.mock('next/server', () => ({
     })),
   },
 }))
-
-function expectPositions(coordinates: unknown) {
-  expect(Array.isArray(coordinates)).toBe(true)
-
-  if (
-    Array.isArray(coordinates) &&
-    typeof coordinates[0] === 'number' &&
-    typeof coordinates[1] === 'number'
-  ) {
-    const [longitude, latitude] = coordinates as number[]
-    expect(longitude).toBeGreaterThanOrEqual(-180)
-    expect(longitude).toBeLessThanOrEqual(180)
-    expect(latitude).toBeGreaterThanOrEqual(-90)
-    expect(latitude).toBeLessThanOrEqual(90)
-    return
-  }
-
-  for (const child of coordinates as unknown[]) {
-    expectPositions(child)
-  }
-}
-
-function expectRfc7946FeatureCollection(geojson: any) {
-  expect(geojson.type).toBe('FeatureCollection')
-  expect(geojson.crs).toBeUndefined()
-  expect(Array.isArray(geojson.features)).toBe(true)
-
-  for (const feature of geojson.features) {
-    expect(feature.type).toBe('Feature')
-    expect(feature.geometry).toEqual(expect.any(Object))
-    expectPositions(feature.geometry.coordinates)
-    expect(feature.properties).toEqual(expect.any(Object))
-  }
-}
 
 describe('GeoJSON WKT API', () => {
   beforeEach(() => {
@@ -146,6 +113,35 @@ describe('GeoJSON WKT API', () => {
         {
           field: 'data[0].wkt',
           message: 'wkt must be a valid WKT geometry string',
+        },
+      ],
+    })
+    expect(sql as unknown as jest.Mock).not.toHaveBeenCalled()
+  })
+
+  it('should reject empty WKT datasets before PostGIS conversion', async () => {
+    const request = new Request('http://localhost:3000/api/geojson/wkt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: [],
+        wktField: 'wkt',
+        properties: ['name'],
+      }),
+    })
+
+    const response = await POST(request as any)
+    const data = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(data).toEqual({
+      error: 'Validation error occurred',
+      errors: [
+        {
+          field: 'data',
+          message: 'data must be a non-empty array',
         },
       ],
     })
