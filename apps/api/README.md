@@ -195,6 +195,16 @@ The API uses a consistent error response format for all error cases:
 - All WKT strings must be valid geometry formats
 - `properties` must be an array of valid field names (if provided)
 
+### GeoJSON Response Validation
+
+- GeoJSON responses must be RFC 7946 FeatureCollections
+- Coordinates must be finite WGS 84 longitude/latitude positions
+- Legacy `crs` members are rejected because RFC 7946 fixes GeoJSON to WGS 84
+- Polygon and MultiPolygon rings must contain at least four positions and close
+  on the starting coordinate
+- Invalid PostGIS-generated GeoJSON returns a 500 response with validation
+  details instead of returning malformed data to clients
+
 ## Testing
 
 The standard API test suite uses mocked database responses for fast route and
@@ -211,3 +221,6 @@ Postgres connection environment variable is available (`POSTGRES_URL`,
 cleanly otherwise. These tests exercise `/api/distance` through the route handler,
 then compare `geo.calculate_distance` output to native PostGIS
 `ST_Distance(...::geography)` spheroid math and verify unit conversions.
+
+GeoJSON route tests validate the mocked `generate_geojson` PostGIS output against
+the same RFC 7946 response validator used by the API routes.

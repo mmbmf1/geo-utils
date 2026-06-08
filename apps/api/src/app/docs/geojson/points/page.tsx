@@ -254,6 +254,24 @@ export default function GeoJSONPointsDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Output Validation
+                </h3>
+                <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900 space-y-3">
+                  <p>
+                    After PostGIS builds the FeatureCollection, the API validates
+                    the response against RFC 7946 expectations before returning
+                    it to the client.
+                  </p>
+                  <p>
+                    The guardrail rejects legacy <code className="font-mono">crs</code>{' '}
+                    members, non-numeric positions, and coordinates outside
+                    WGS 84 longitude/latitude bounds.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
