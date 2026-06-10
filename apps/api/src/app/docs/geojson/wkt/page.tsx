@@ -262,6 +262,24 @@ export default function GeoJSONWKTDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Output Validation
+                </h3>
+                <div className="rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900 space-y-3">
+                  <p>
+                    PostGIS performs the WKT conversion, then the API validates
+                    the generated FeatureCollection before sending it to the
+                    client.
+                  </p>
+                  <p>
+                    The RFC 7946 check verifies WGS 84 coordinate bounds,
+                    rejects legacy <code className="font-mono">crs</code>{' '}
+                    members, and ensures polygon rings are closed.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
