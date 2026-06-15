@@ -214,13 +214,19 @@ documentation checks:
 pnpm --filter api test
 ```
 
-Distance integration tests are included in
-`src/app/api/distance/route.integration.test.ts`. They run automatically when a
-Postgres connection environment variable is available (`POSTGRES_URL`,
-`POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`, or `DATABASE_URL`) and skip
-cleanly otherwise. These tests exercise `/api/distance` through the route handler,
-then compare `geo.calculate_distance` output to native PostGIS
-`ST_Distance(...::geography)` spheroid math and verify unit conversions.
+Integration tests run automatically when a PostGIS connection environment
+variable is available (`POSTGRES_URL`, `POSTGRES_PRISMA_URL`,
+`POSTGRES_URL_NON_POOLING`, or `DATABASE_URL`) and skip cleanly otherwise.
 
-GeoJSON route tests validate the mocked `generate_geojson` PostGIS output against
-the same RFC 7946 response validator used by the API routes.
+- `src/app/api/distance/route.integration.test.ts` exercises `/api/distance`
+  through the route handler, then compares `geo.calculate_distance` output to
+  native PostGIS `ST_Distance(...::geography)` spheroid math and verifies unit
+  conversions.
+- `src/app/api/geojson/route.integration.test.ts` exercises both GeoJSON routes
+  through live `generate_geojson` PostGIS calls and validates the returned
+  FeatureCollections with the same RFC 7946 response validator used by the API
+  routes.
+
+The mocked GeoJSON route tests still cover failure paths where PostGIS returns
+malformed GeoJSON, ensuring the API rejects invalid output instead of returning
+it to clients.
