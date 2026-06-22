@@ -272,6 +272,17 @@ export default function GeoJSONPointsDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Use Cases
+                </h3>
+                <ul className="rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-700 space-y-2 list-disc list-inside">
+                  <li>Convert CSV-style business records into map-ready GeoJSON.</li>
+                  <li>Expose asset, store, or sensor locations through a stable API.</li>
+                  <li>Preserve selected metadata fields for downstream filtering and popups.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -279,9 +290,52 @@ export default function GeoJSONPointsDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Response Fields
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">type</code> is
+                    always <code className="font-mono text-gray-900">FeatureCollection</code>{' '}
+                    for successful responses.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">features</code>{' '}
+                    contains one GeoJSON feature per input row, with point
+                    coordinates serialized as [longitude, latitude].
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">properties</code>{' '}
+                    contains only the source fields requested in the
+                    <code className="font-mono text-gray-900"> properties</code>{' '}
+                    array.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Troubleshooting and Best Practices
+                </h3>
+                <div className="rounded-lg border border-amber-100 bg-amber-50 p-4 text-sm text-amber-900 space-y-3">
+                  <p>
+                    Match <code className="font-mono">latField</code> and{' '}
+                    <code className="font-mono">lngField</code> exactly to keys
+                    in each data row. Missing or non-numeric coordinate values
+                    fail validation before PostGIS is called.
+                  </p>
+                  <p>
+                    Keep request batches small enough for your hosting request
+                    body limits, then merge returned feature arrays when
+                    processing very large datasets.
+                  </p>
+                </div>
               </div>
 
               <div>
