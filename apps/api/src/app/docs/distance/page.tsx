@@ -293,7 +293,7 @@ export default function DistanceDocs() {
                   <p>
                     Send longitude values in the -180 to 180 range. For
                     antimeridian-aware workflows, normalize coordinates before
-                    calling the endpoint.
+                    calling the API.
                   </p>
                 </div>
               </div>
