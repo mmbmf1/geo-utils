@@ -280,6 +280,17 @@ export default function GeoJSONWKTDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Use Cases
+                </h3>
+                <ul className="rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-700 space-y-2 list-disc list-inside">
+                  <li>Convert PostGIS exports or database WKT columns to GeoJSON.</li>
+                  <li>Return polygons, lines, and points through one developer-friendly endpoint.</li>
+                  <li>Attach selected business metadata while leaving geometry parsing to PostGIS.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -287,9 +298,53 @@ export default function GeoJSONWKTDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Response Fields
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">type</code> is
+                    always <code className="font-mono text-gray-900">FeatureCollection</code>{' '}
+                    when conversion succeeds.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">features</code>{' '}
+                    mirrors the input row order and contains the geometry type
+                    parsed by PostGIS from each WKT string.
+                  </p>
+                  <p>
+                    <code className="font-mono text-gray-900">properties</code>{' '}
+                    includes only the requested metadata fields, keeping source
+                    WKT out of the response unless explicitly requested.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Troubleshooting and Best Practices
+                </h3>
+                <div className="rounded-lg border border-amber-100 bg-amber-50 p-4 text-sm text-amber-900 space-y-3">
+                  <p>
+                    Use valid WKT geometry keywords such as{' '}
+                    <code className="font-mono">POINT</code>,{' '}
+                    <code className="font-mono">LINESTRING</code>, or{' '}
+                    <code className="font-mono">POLYGON</code>. Invalid WKT is
+                    rejected before the PostGIS conversion query runs.
+                  </p>
+                  <p>
+                    Close polygon rings and keep x/y coordinates in
+                    longitude/latitude order for EPSG:4326 data. The response
+                    validator catches unclosed rings or coordinates outside WGS
+                    84 bounds.
+                  </p>
+                </div>
               </div>
 
               <div>
@@ -429,9 +484,9 @@ export default function GeoJSONWKTDocs() {
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
-                  <p className="mt-1 text-xs text-gray-500">
-                    Name of the field containing WKT geometry strings.
-                  </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  Name of the field containing WKT geometry strings.
+                </p>
               </div>
 
               {/* Properties */}

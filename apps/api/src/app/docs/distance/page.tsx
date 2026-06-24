@@ -243,6 +243,17 @@ export default function DistanceDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Use Cases
+                </h3>
+                <ul className="rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-700 space-y-2 list-disc list-inside">
+                  <li>Estimate delivery, dispatch, or field-service route distances.</li>
+                  <li>Compare user-submitted coordinates against facility or asset locations.</li>
+                  <li>Normalize geodetic measurements before storing analytics events.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Response
                 </h3>
                 <CodeBlock code={responseExample} />
@@ -250,9 +261,41 @@ export default function DistanceDocs() {
 
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Response Fields
+                </h3>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 space-y-3">
+                  <p>
+                    <code className="font-mono text-gray-900">distance</code> is
+                    the PostGIS spheroid result converted into the requested
+                    unit. The value is returned as a number so clients can round
+                    it for display or keep full precision for downstream logic.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
                   Example Usage
                 </h3>
                 <CodeBlock code={fetchExample} />
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Troubleshooting and Best Practices
+                </h3>
+                <div className="rounded-lg border border-amber-100 bg-amber-50 p-4 text-sm text-amber-900 space-y-3">
+                  <p>
+                    Keep latitude and longitude as numbers, not strings. The API
+                    rejects stringified coordinates before running the PostGIS
+                    query so invalid data does not reach the database.
+                  </p>
+                  <p>
+                    Send longitude values in the -180 to 180 range. For
+                    antimeridian-aware workflows, normalize coordinates before
+                    calling the API.
+                  </p>
+                </div>
               </div>
 
               <div>

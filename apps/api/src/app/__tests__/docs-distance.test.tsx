@@ -46,6 +46,31 @@ describe('Distance Documentation Page', () => {
       expect(screen.getByText(/example/i)).toBeInTheDocument()
       expect(screen.getByText(/fetch/i)).toBeInTheDocument()
     })
+
+    it('renders enhanced developer guidance sections', () => {
+      render(<DistanceDocs />)
+
+      expect(
+        screen.getByRole('heading', { name: /use cases/i })
+      ).toBeInTheDocument()
+      expect(
+        screen.getByText(/field-service route distances/i)
+      ).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: /response fields/i })
+      ).toBeInTheDocument()
+      expect(
+        screen.getByText(/postgis spheroid result/i)
+      ).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', {
+          name: /troubleshooting and best practices/i,
+        })
+      ).toBeInTheDocument()
+      expect(
+        screen.getByText(/rejects stringified coordinates/i)
+      ).toBeInTheDocument()
+    })
   })
 
   describe('Testing Interface', () => {

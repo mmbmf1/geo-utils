@@ -4,9 +4,9 @@
 
 Geo Utils is a geospatial toolkit that provides accurate calculations and data transformations powered by PostGIS. This roadmap outlines our current priorities and future plans.
 
-## Current Version: v0.2.3 ✅
+## Current Version: v0.2.4 ✅
 
-**Published to npm:** [@mmbmf1/geo-utils](https://www.npmjs.com/package/@mmbmf1/geo-utils)
+**Published npm package:** [@mmbmf1/geo-utils](https://www.npmjs.com/package/@mmbmf1/geo-utils) remains v0.2.3. v0.2.4 is an API documentation milestone and does not require a package version bump.
 
 ### Available Features
 
@@ -22,23 +22,27 @@ Geo Utils is a geospatial toolkit that provides accurate calculations and data t
 
 - ✅ **Developer Experience**
   - Interactive documentation UI for all endpoints
+  - Parameter help text, response field descriptions, use cases, troubleshooting, and related endpoint links
+  - Technical explainers for EPSG:4326, RFC 7946 coordinate order, and PostGIS spheroid/geography math
   - Copy-to-clipboard functionality for code examples and responses
   - Modern, mobile-first UI design
   - Comprehensive error handling with detailed validation messages
   - All tests passing in both package and API
 
-## Upcoming Features ⏳
+## Completed Milestones ✅
 
 ### Documentation Enhancements (v0.2.4)
 
-- Field descriptions and help text for all parameters
-- Parameter descriptions section explaining each request field
-- Use case examples with real-world scenarios
-- Technical details (coordinate systems, geodetic distance explanation, PostGIS usage)
-- Error handling guide with common errors and troubleshooting steps
-- Response field descriptions with usage context
-- Tips and best practices sections
-- Related endpoints links for discoverability
+- ✅ Field descriptions and help text for all parameters
+- ✅ Parameter descriptions section explaining each request field
+- ✅ Use case examples with real-world scenarios
+- ✅ Technical details (coordinate systems, geodetic distance explanation, PostGIS usage)
+- ✅ Error handling guide with common errors and troubleshooting steps
+- ✅ Response field descriptions with usage context
+- ✅ Tips and best practices sections
+- ✅ Related endpoints links for discoverability
+
+## Upcoming Features ⏳
 
 ### Testing & Reliability (v0.2.5)
 
@@ -85,11 +89,12 @@ We welcome contributions! If you're interested in helping with any of these feat
 
 ## Version History
 
-- **v0.2.3** (Current): Published to npm with all features from v0.2.0-v0.2.2
+- **v0.2.4** (Current API docs milestone): Enhanced all interactive endpoint documentation with parameter help text, technical explainers, use cases, response field guidance, troubleshooting, best practices, and related endpoint links.
+- **v0.2.3** (Current npm package): Published to npm with all features from v0.2.0-v0.2.2
 - **v0.2.2** (API only): UI/UX polish with modern design, improved spacing, card-based layouts, and Next.js 16 upgrade
 - **v0.2.1** (API only): Copy-to-clipboard functionality for code examples and API responses, improved documentation UI
 - **v0.2.0**: Added GeoJSON generation from points and WKT geometries, client package methods, comprehensive testing, and interactive documentation UI. Published to npm.
 - **v0.1.4**: Added input validation and improved error handling
 - **v0.1.3**: Initial public release with distance calculations
 
-Last Updated: 2026-01-24
+Last Updated: 2026-06-22
