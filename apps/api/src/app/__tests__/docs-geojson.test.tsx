@@ -19,6 +19,10 @@ describe('GeoJSON documentation pages', () => {
       screen.getByText(/one GeoJSON feature per input row/i)
     ).toBeInTheDocument()
     expect(
+      screen.getAllByText(/feature properties/i)[0]
+    ).toBeInTheDocument()
+    expect(screen.getAllByText(/null/i).length).toBeGreaterThan(0)
+    expect(
       screen.getByRole('heading', {
         name: /troubleshooting and best practices/i,
       })
@@ -49,6 +53,9 @@ describe('GeoJSON documentation pages', () => {
     ).toBeInTheDocument()
     expect(
       screen.getByText(/source WKT out of the response/i)
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(/WKT-only rows can remain standards-compliant/i)
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {

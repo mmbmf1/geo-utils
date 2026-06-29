@@ -202,6 +202,8 @@ The API uses a consistent error response format for all error cases:
 - Legacy `crs` members are rejected because RFC 7946 fixes GeoJSON to WGS 84
 - Polygon and MultiPolygon rings must contain at least four positions and close
   on the starting coordinate
+- Feature `properties` may be a JSON object or `null`, and Feature `geometry`
+  may be a GeoJSON geometry object or `null`, matching RFC 7946
 - Invalid PostGIS-generated GeoJSON returns a 500 response with validation
   details instead of returning malformed data to clients
 
@@ -225,7 +227,7 @@ variable is available (`POSTGRES_URL`, `POSTGRES_PRISMA_URL`,
 - `src/app/api/geojson/route.integration.test.ts` exercises both GeoJSON routes
   through live `generate_geojson` PostGIS calls and validates the returned
   FeatureCollections with the same RFC 7946 response validator used by the API
-  routes.
+  routes, including requests where optional metadata properties are omitted.
 
 The mocked GeoJSON route tests still cover failure paths where PostGIS returns
 malformed GeoJSON, ensuring the API rejects invalid output instead of returning

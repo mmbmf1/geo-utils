@@ -83,6 +83,25 @@ describeWithPostgres('GeoJSON API PostGIS integration', () => {
     })
   })
 
+  it('returns RFC 7946 point features when properties are omitted', async () => {
+    const request = jsonRequest('http://localhost:3000/api/geojson/points', {
+      data: [{ lat: 39.0997, lng: -94.5786 }],
+      latField: 'lat',
+      lngField: 'lng',
+    })
+
+    const response = await postPoints(request as any)
+    const geojson = await response.json()
+
+    expect(response.status).toBe(200)
+    expectRfc7946FeatureCollection(geojson)
+    expect(geojson.features).toHaveLength(1)
+    expect(geojson.features[0].geometry).toEqual({
+      type: 'Point',
+      coordinates: [-94.5786, 39.0997],
+    })
+  })
+
   it('returns RFC 7946 geometries converted from WKT by PostGIS', async () => {
     const request = jsonRequest('http://localhost:3000/api/geojson/wkt', {
       data: [
@@ -140,6 +159,24 @@ describeWithPostgres('GeoJSON API PostGIS integration', () => {
           },
         },
       ],
+    })
+  })
+
+  it('returns RFC 7946 WKT features when properties are omitted', async () => {
+    const request = jsonRequest('http://localhost:3000/api/geojson/wkt', {
+      data: [{ wkt: 'POINT(-73.9855 40.7580)' }],
+      wktField: 'wkt',
+    })
+
+    const response = await postWKT(request as any)
+    const geojson = await response.json()
+
+    expect(response.status).toBe(200)
+    expectRfc7946FeatureCollection(geojson)
+    expect(geojson.features).toHaveLength(1)
+    expect(geojson.features[0].geometry).toEqual({
+      type: 'Point',
+      coordinates: [-73.9855, 40.758],
     })
   })
 })

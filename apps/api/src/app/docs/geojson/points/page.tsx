@@ -19,7 +19,7 @@ interface GeoJSONResponse {
       type: string
       coordinates: number[]
     }
-    properties: Record<string, any>
+    properties: Record<string, any> | null
   }>
 }
 
@@ -228,7 +228,9 @@ export default function GeoJSONPointsDocs() {
                   <p>
                     <code className="font-mono text-gray-900">properties</code>{' '}
                     is optional and limits which source fields are copied into
-                    each GeoJSON feature properties object.
+                    each GeoJSON feature properties object. If no metadata is
+                    selected, RFC 7946 permits <code className="font-mono">null</code>{' '}
+                    feature properties.
                   </p>
                 </div>
               </div>
@@ -266,6 +268,11 @@ export default function GeoJSONPointsDocs() {
                     The guardrail rejects legacy <code className="font-mono">crs</code>{' '}
                     members, non-numeric positions, and coordinates outside
                     WGS 84 longitude/latitude bounds.
+                  </p>
+                  <p>
+                    Feature properties may be either a JSON object or{' '}
+                    <code className="font-mono">null</code>, matching the RFC
+                    for rows without selected metadata.
                   </p>
                 </div>
               </div>
@@ -307,7 +314,8 @@ export default function GeoJSONPointsDocs() {
                     <code className="font-mono text-gray-900">properties</code>{' '}
                     contains only the source fields requested in the
                     <code className="font-mono text-gray-900"> properties</code>{' '}
-                    array.
+                    array, or <code className="font-mono text-gray-900">null</code>{' '}
+                    when PostGIS has no metadata fields to attach.
                   </p>
                 </div>
               </div>

@@ -18,7 +18,7 @@ interface GeoJSONResponse {
       type: string
       coordinates: number[] | number[][]
     }
-    properties: Record<string, any>
+    properties: Record<string, any> | null
   }>
 }
 
@@ -235,7 +235,9 @@ export default function GeoJSONWKTDocs() {
                   <p>
                     <code className="font-mono text-gray-900">properties</code>{' '}
                     is optional and controls which non-geometry fields are copied
-                    to the returned GeoJSON features.
+                    to the returned GeoJSON features. If no metadata fields are
+                    selected, RFC 7946 permits <code className="font-mono">null</code>{' '}
+                    feature properties.
                   </p>
                 </div>
               </div>
@@ -274,6 +276,11 @@ export default function GeoJSONWKTDocs() {
                     The RFC 7946 check verifies WGS 84 coordinate bounds,
                     rejects legacy <code className="font-mono">crs</code>{' '}
                     members, and ensures polygon rings are closed.
+                  </p>
+                  <p>
+                    Feature properties may be either a JSON object or{' '}
+                    <code className="font-mono">null</code>, so WKT-only rows can
+                    remain standards-compliant without placeholder metadata.
                   </p>
                 </div>
               </div>
@@ -314,7 +321,9 @@ export default function GeoJSONWKTDocs() {
                   <p>
                     <code className="font-mono text-gray-900">properties</code>{' '}
                     includes only the requested metadata fields, keeping source
-                    WKT out of the response unless explicitly requested.
+                    WKT out of the response unless explicitly requested, or
+                    <code className="font-mono text-gray-900"> null</code> when
+                    no metadata is selected.
                   </p>
                 </div>
               </div>

@@ -364,6 +364,10 @@ function validateGeometry(
   field: string,
   errors: ValidationError[]
 ) {
+  if (geometry === null) {
+    return
+  }
+
   if (!isPlainObject(geometry)) {
     errors.push({
       field,
@@ -546,10 +550,10 @@ export function validateGeoJSONFeatureCollection(
 
     validateGeometry(feature.geometry, `${featureField}.geometry`, errors)
 
-    if (!isPlainObject(feature.properties)) {
+    if (feature.properties !== null && !isPlainObject(feature.properties)) {
       errors.push({
         field: `${featureField}.properties`,
-        message: 'feature properties must be an object',
+        message: 'feature properties must be an object or null',
       })
     }
   })
